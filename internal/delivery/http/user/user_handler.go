@@ -3,7 +3,6 @@ package user_handler
 import (
 	"majoo/domain/repository"
 	"majoo/domain/usecase"
-	"majoo/internal/config"
 	"majoo/internal/usecase/user"
 	"majoo/pkg/service/jwt"
 
@@ -11,20 +10,17 @@ import (
 )
 
 type userHandler struct {
-	cfgServer   config.ServerConfig
 	jwtService  jwt.JWTService
 	userUseCase usecase.UserUseCase
 }
 
 func UserHandler(
 	r *mux.Router,
-	cfgServer config.ServerConfig,
 	jwtService jwt.JWTService,
 	userRepository repository.UserRepository,
 ) {
-	userUseCase := user.NewUserInteractor(cfgServer, userRepository)
+	userUseCase := user.NewUserInteractor(userRepository)
 	handler := &userHandler{
-		cfgServer:   cfgServer,
 		jwtService:  jwtService,
 		userUseCase: userUseCase,
 	}

@@ -31,7 +31,7 @@ func main() {
 
 	router := mux.NewRouter()
 
-	initHandler(router, cfg)
+	initHandler(router)
 	http.Handle("/", router)
 	appLogger.Info("Majoo Service Run on " + cfg.Port)
 
@@ -55,6 +55,6 @@ func main() {
 	}
 }
 
-func initHandler(router *mux.Router, cfg config.ServerConfig) {
-	user_handler.UserHandler(router, cfg, jwtService, userRepo)
+func initHandler(router *mux.Router) {
+	user_handler.UserHandler(router, jwtService, userRepo)
 }

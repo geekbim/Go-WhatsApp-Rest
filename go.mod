@@ -11,4 +11,5 @@ require (
 	github.com/rocketlaunchr/dbq v1.1.11
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cobra v1.4.0
+	github.com/stretchr/testify v1.7.0
 )
