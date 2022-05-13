@@ -1,0 +1,1 @@
+INSERT INTO Merchants VALUES (1, 1, 'merchant 1', NOW(), 1, NOW(),1), (2, 2, 'Merchant 2', NOW(), 2, NOW(),2);
