@@ -2,6 +2,7 @@ package postgres_repository
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"majoo/domain/entity"
 	"majoo/internal/delivery/request"
@@ -45,4 +46,22 @@ func (repository *transactionRepository) GetTransactionByUserIdAndDate(ctx conte
 	} else {
 		return nil, nil
 	}
+}
+
+func (repository *transactionRepository) CountTransactionByUserIdAndDate(ctx context.Context, userId int, startDate, endDate time.Time, options *request.Option) (int32, error) {
+	var (
+		count sql.NullInt32
+		err   error
+	)
+
+	stmt, args := repository.getListTransactionQuery(userId, startDate, endDate, options)
+
+	stmt = fmt.Sprintf(`SELECT count(id) from (%s) as q`, stmt)
+
+	err = repository.db.QueryRowContext(ctx, stmt, args...).Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+
+	return count.Int32, nil
 }

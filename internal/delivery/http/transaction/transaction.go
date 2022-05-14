@@ -61,11 +61,11 @@ func (handler *transactionHandler) GetList(w http.ResponseWriter, r *http.Reques
 
 	payload := request.NewOption(limit, page)
 
-	res, errUseCase := handler.transactionUseCase.ListTransaction(ctx, userId, startDate, endDate, payload)
+	res, count, errUseCase := handler.transactionUseCase.ListTransaction(ctx, userId, startDate, endDate, payload)
 	if errUseCase != nil {
 		utils.RespondWithError(w, http.StatusBadRequest, errUseCase.Errors.Errors)
 		return
 	}
 
-	utils.RespondWithJSON(w, http.StatusCreated, response.MapTransactionListDomainToResponse(res))
+	utils.RespondWithJSON(w, http.StatusCreated, response.MapTransactionListDomainToResponse(res, count))
 }

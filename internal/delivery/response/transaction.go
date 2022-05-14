@@ -16,6 +16,7 @@ type Transaction struct {
 
 type ListTransaction struct {
 	Transactions []*Transaction `json:"transactions"`
+	Count        int32          `json:"count"`
 }
 
 func MapTransactionDomainToResponse(transaction *entity.Transaction) *Transaction {
@@ -29,7 +30,7 @@ func MapTransactionDomainToResponse(transaction *entity.Transaction) *Transactio
 	}
 }
 
-func MapTransactionListDomainToResponse(transactions []*entity.Transaction) *ListTransaction {
+func MapTransactionListDomainToResponse(transactions []*entity.Transaction, count int32) *ListTransaction {
 	res := make([]*Transaction, 0)
 
 	for _, transaction := range transactions {
@@ -38,5 +39,6 @@ func MapTransactionListDomainToResponse(transactions []*entity.Transaction) *Lis
 
 	return &ListTransaction{
 		Transactions: res,
+		Count:        count,
 	}
 }

@@ -9,5 +9,5 @@ import (
 )
 
 type TransactionUseCase interface {
-	ListTransaction(ctx context.Context, userId int, startDate, endDate time.Time, options *request.Option) ([]*entity.Transaction, *exceptions.CustomerError)
+	ListTransaction(ctx context.Context, userId int, startDate, endDate time.Time, options *request.Option) ([]*entity.Transaction, int32, *exceptions.CustomerError)
 }

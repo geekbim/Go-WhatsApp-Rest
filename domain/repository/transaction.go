@@ -9,4 +9,5 @@ import (
 
 type TransactionRepository interface {
 	GetTransactionByUserIdAndDate(ctx context.Context, userId int, startDate, endDate time.Time, options *request.Option) ([]*entity.Transaction, error)
+	CountTransactionByUserIdAndDate(ctx context.Context, userId int, startDate, endDate time.Time, options *request.Option) (int32, error)
 }
