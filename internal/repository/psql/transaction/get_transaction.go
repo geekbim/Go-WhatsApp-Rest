@@ -20,7 +20,7 @@ func (repository *transactionRepository) getListTransactionQuery(userId int, sta
 	args = append(args, endDate)
 	condition := ""
 
-	stmt := fmt.Sprintf(`SELECT t.id, m.merchant_name, o.outlet_name, t.bill_total as omzet, t.created_at, t.created_by, t.updated_at, t.updated_by 
+	stmt := fmt.Sprintf(`SELECT t.id, m.merchant_name, o.outlet_name, t.bill_total as omzet, t.created_at, t.updated_at 
 		FROM %s t 
 		JOIN merchants m ON m.id = t.merchant_id 
 		JOIN outlets o ON o.id = t.outlet_id 
