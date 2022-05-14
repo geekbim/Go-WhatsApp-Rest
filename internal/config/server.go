@@ -10,7 +10,6 @@ import (
 type ServerConfig struct {
 	Port    string
 	TimeOut time.Duration
-	Debug   bool
 }
 
 func convertInt(env string) int {
@@ -22,7 +21,6 @@ func Server() ServerConfig {
 	cfg := ServerConfig{
 		Port:    os.Getenv("SERVER_PORT"),
 		TimeOut: time.Duration(convertInt("APP_TIMEOUT")) * time.Second,
-		Debug:   config.ConvertBool("DEBUG"),
 	}
 	err := cfg.Validate()
 	if err != nil {

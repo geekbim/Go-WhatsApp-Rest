@@ -18,7 +18,6 @@ type DatabaseConfig struct {
 	MaxConnectionIdle int
 	MaxConnectionOpen int
 	Schema            string
-	Debug             bool
 	TimeOut           time.Duration
 }
 
@@ -49,7 +48,6 @@ func DatabasePGSQL() DatabaseConfig {
 		MaxConnectionIdle: ConvertInt("DB_MAX_CON_IDLE"),
 		MaxConnectionOpen: ConvertInt("DB_MAX_CON_OPEN"),
 		Schema:            schema,
-		Debug:             ConvertBool("DEBUG"),
 		TimeOut:           time.Duration(ConvertInt("APP_TIMEOUT")) * time.Second,
 	}
 }

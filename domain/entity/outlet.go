@@ -4,7 +4,7 @@ import "time"
 
 type Outlet struct {
 	Id         int
-	MerchantId int
+	Merchant   *Merchant
 	OutletName string
 	CreatedAt  time.Time
 	CreatedBy  int

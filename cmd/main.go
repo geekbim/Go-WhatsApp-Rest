@@ -5,7 +5,9 @@ import (
 	"database/sql"
 	"fmt"
 	"majoo/internal/config"
+	transaction_handler "majoo/internal/delivery/http/transaction"
 	user_handler "majoo/internal/delivery/http/user"
+	transaction_repository "majoo/internal/repository/psql/transaction"
 	user_repository "majoo/internal/repository/psql/user"
 	"majoo/pkg/logger"
 	"majoo/pkg/service/jwt"
@@ -18,11 +20,12 @@ import (
 )
 
 var (
-	cfg        = config.Server()
-	appLogger  = logger.NewApiLogger()
-	db         = config.InitDatabase()
-	jwtService = jwt.NewJWTService()
-	userRepo   = user_repository.NewUserRepository(db)
+	cfg             = config.Server()
+	appLogger       = logger.NewApiLogger()
+	db              = config.InitDatabase()
+	jwtService      = jwt.NewJWTService()
+	userRepo        = user_repository.NewUserRepository(db)
+	transactionRepo = transaction_repository.NewTransactionRepository(db)
 )
 
 func main() {
@@ -57,4 +60,5 @@ func main() {
 
 func initHandler(router *mux.Router) {
 	user_handler.UserHandler(router, jwtService, userRepo)
+	transaction_handler.TransactionHandler(router, jwtService, transactionRepo)
 }

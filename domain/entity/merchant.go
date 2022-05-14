@@ -4,7 +4,7 @@ import "time"
 
 type Merchant struct {
 	Id           int
-	UserId       int
+	User         *User
 	MerchantName string
 	CreatedAt    time.Time
 	CreatedBy    int
