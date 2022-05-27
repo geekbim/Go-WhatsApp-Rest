@@ -2,9 +2,9 @@ package transaction
 
 import (
 	"context"
-	"majoo/domain/entity"
-	"majoo/internal/delivery/request"
-	"majoo/pkg/exceptions"
+	"go-rest-ddd/domain/entity"
+	"go-rest-ddd/internal/delivery/request"
+	"go-rest-ddd/pkg/exceptions"
 	"time"
 
 	"github.com/hashicorp/go-multierror"

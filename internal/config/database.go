@@ -2,7 +2,7 @@ package config
 
 import (
 	"database/sql"
-	"majoo/pkg/config"
+	"go-rest-ddd/pkg/config"
 	"strings"
 
 	_ "github.com/lib/pq"

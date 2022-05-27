@@ -1,7 +1,7 @@
 package response
 
 import (
-	"majoo/domain/entity"
+	"go-rest-ddd/domain/entity"
 	"time"
 )
 

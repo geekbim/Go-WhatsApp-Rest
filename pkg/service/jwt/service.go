@@ -2,7 +2,7 @@ package jwt
 
 import (
 	"fmt"
-	"majoo/pkg/config"
+	"go-rest-ddd/pkg/config"
 	"os"
 	"strings"
 	"time"

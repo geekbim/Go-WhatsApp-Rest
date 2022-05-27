@@ -2,7 +2,7 @@ package mocks
 
 import (
 	"context"
-	"majoo/domain/entity"
+	"go-rest-ddd/domain/entity"
 
 	"github.com/stretchr/testify/mock"
 )

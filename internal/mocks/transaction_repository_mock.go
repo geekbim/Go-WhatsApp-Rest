@@ -2,8 +2,8 @@ package mocks
 
 import (
 	"context"
-	"majoo/domain/entity"
-	"majoo/internal/delivery/request"
+	"go-rest-ddd/domain/entity"
+	"go-rest-ddd/internal/delivery/request"
 	"time"
 
 	"github.com/stretchr/testify/mock"

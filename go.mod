@@ -1,4 +1,4 @@
-module majoo
+module go-rest-ddd
 
 go 1.16
 
@@ -13,4 +13,6 @@ require (
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cobra v1.4.0
 	github.com/stretchr/testify v1.7.0
+	github.com/swaggo/http-swagger v1.2.8 // indirect
+	github.com/swaggo/swag v1.8.2 // indirect
 )

@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"majoo/domain/entity"
-	"majoo/internal/repository/psql/mapper"
-	"majoo/internal/repository/psql/models"
+	"go-rest-ddd/domain/entity"
+	"go-rest-ddd/internal/repository/psql/mapper"
+	"go-rest-ddd/internal/repository/psql/models"
 
 	"github.com/rocketlaunchr/dbq"
 )

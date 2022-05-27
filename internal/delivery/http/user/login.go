@@ -3,10 +3,10 @@ package user_handler
 import (
 	"context"
 	"encoding/json"
-	"majoo/domain/entity"
-	"majoo/internal/delivery/request"
-	"majoo/internal/delivery/response"
-	"majoo/pkg/utils"
+	"go-rest-ddd/domain/entity"
+	"go-rest-ddd/internal/delivery/request"
+	"go-rest-ddd/internal/delivery/response"
+	"go-rest-ddd/pkg/utils"
 	"net/http"
 	"strconv"
 )

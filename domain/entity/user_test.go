@@ -2,8 +2,8 @@ package entity_test
 
 import (
 	"errors"
-	"majoo/domain/entity"
-	"majoo/testdata"
+	"go-rest-ddd/domain/entity"
+	"go-rest-ddd/testdata"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

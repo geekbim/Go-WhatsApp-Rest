@@ -1,10 +1,10 @@
 package user_handler
 
 import (
-	"majoo/domain/repository"
-	"majoo/domain/usecase"
-	"majoo/internal/usecase/user"
-	"majoo/pkg/service/jwt"
+	"go-rest-ddd/domain/repository"
+	"go-rest-ddd/domain/usecase"
+	"go-rest-ddd/internal/usecase/user"
+	"go-rest-ddd/pkg/service/jwt"
 
 	"github.com/gorilla/mux"
 )

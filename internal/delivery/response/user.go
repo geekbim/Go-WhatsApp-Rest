@@ -1,6 +1,6 @@
 package response
 
-import "majoo/domain/entity"
+import "go-rest-ddd/domain/entity"
 
 type User struct {
 	Id       int    `json:"id"`

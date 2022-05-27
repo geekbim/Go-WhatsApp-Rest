@@ -2,8 +2,8 @@ package usecase
 
 import (
 	"context"
-	"majoo/domain/entity"
-	"majoo/pkg/exceptions"
+	"go-rest-ddd/domain/entity"
+	"go-rest-ddd/pkg/exceptions"
 )
 
 type UserUseCase interface {

@@ -1,10 +1,10 @@
 package transaction_handler
 
 import (
-	"majoo/domain/repository"
-	"majoo/domain/usecase"
-	"majoo/internal/usecase/transaction"
-	"majoo/pkg/service/jwt"
+	"go-rest-ddd/domain/repository"
+	"go-rest-ddd/domain/usecase"
+	"go-rest-ddd/internal/usecase/transaction"
+	"go-rest-ddd/pkg/service/jwt"
 
 	"github.com/gorilla/mux"
 )

@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"majoo/domain/entity"
+	"go-rest-ddd/domain/entity"
 )
 
 type UserRepository interface {

@@ -1,7 +1,7 @@
 package config
 
 import (
-	"majoo/pkg/config"
+	"go-rest-ddd/pkg/config"
 	"os"
 	"strconv"
 	"time"

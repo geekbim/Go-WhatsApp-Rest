@@ -2,7 +2,7 @@ package postgres_repository
 
 import (
 	"database/sql"
-	"majoo/domain/repository"
+	"go-rest-ddd/domain/repository"
 )
 
 type transactionRepository struct {

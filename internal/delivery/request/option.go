@@ -1,6 +1,6 @@
 package request
 
-import "majoo/pkg/utils"
+import "go-rest-ddd/pkg/utils"
 
 type Option struct {
 	Pagination utils.PaginationOption

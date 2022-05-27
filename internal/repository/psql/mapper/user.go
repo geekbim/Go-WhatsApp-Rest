@@ -1,8 +1,8 @@
 package mapper
 
 import (
-	"majoo/domain/entity"
-	"majoo/internal/repository/psql/models"
+	"go-rest-ddd/domain/entity"
+	"go-rest-ddd/internal/repository/psql/models"
 )
 
 func ToDomainUser(m *models.User) *entity.User {

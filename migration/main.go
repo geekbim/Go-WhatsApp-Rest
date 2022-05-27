@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"go-rest-ddd/pkg/config"
 	"log"
-	"majoo/pkg/config"
 	"os"
 	"strconv"
 	"time"

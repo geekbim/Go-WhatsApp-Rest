@@ -1,6 +1,6 @@
 package testdata
 
-import "majoo/domain/entity"
+import "go-rest-ddd/domain/entity"
 
 func NewUserDTO() *entity.UserDTO {
 	return &entity.UserDTO{

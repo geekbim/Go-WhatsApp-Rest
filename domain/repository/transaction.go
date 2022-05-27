@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
-	"majoo/domain/entity"
-	"majoo/internal/delivery/request"
+	"go-rest-ddd/domain/entity"
+	"go-rest-ddd/internal/delivery/request"
 	"time"
 )
 

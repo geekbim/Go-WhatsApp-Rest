@@ -3,9 +3,9 @@ package user_test
 import (
 	"context"
 	"errors"
-	"majoo/internal/mocks"
-	user_usecase "majoo/internal/usecase/user"
-	"majoo/testdata"
+	"go-rest-ddd/internal/mocks"
+	user_usecase "go-rest-ddd/internal/usecase/user"
+	"go-rest-ddd/testdata"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

@@ -3,10 +3,10 @@ package transaction_test
 import (
 	"context"
 	"errors"
-	"majoo/domain/entity"
-	"majoo/internal/mocks"
-	transaction_usecase "majoo/internal/usecase/transaction"
-	"majoo/testdata"
+	"go-rest-ddd/domain/entity"
+	"go-rest-ddd/internal/mocks"
+	transaction_usecase "go-rest-ddd/internal/usecase/transaction"
+	"go-rest-ddd/testdata"
 	"testing"
 	"time"
 

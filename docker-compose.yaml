@@ -1,0 +1,18 @@
+services:
+  go-rest-ddd:
+    build: .
+    depends_on:
+        - "postgres"
+    ports:
+        - "5000:5000"
+    env_file:
+    - .env
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=hwhwhwlol
+      - POSTGRES_DB=majoo_db
+    ports:
+      - "5432:5432"
