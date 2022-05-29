@@ -12,6 +12,7 @@
     git clone git@github.com:geekbim/Go-Rest-DDD-V2.git
     cd Go-Rest-DDD-V2
     cp .env.example .env
+    go mod tidy
     sh run-service.sh
 ```
 
