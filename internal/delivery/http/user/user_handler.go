@@ -1,10 +1,10 @@
 package user_handler
 
 import (
-	"go-rest-ddd/domain/repository"
-	"go-rest-ddd/domain/usecase"
-	"go-rest-ddd/internal/usecase/user"
-	"go-rest-ddd/pkg/service/jwt"
+	"gokomodo/domain/repository"
+	"gokomodo/domain/usecase"
+	"gokomodo/internal/usecase/user"
+	"gokomodo/pkg/service/jwt"
 
 	"github.com/gorilla/mux"
 )

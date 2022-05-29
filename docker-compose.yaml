@@ -1,18 +1,32 @@
+version: '3.9'
 services:
-  go-rest-ddd:
+  gokomodo:
     build: .
+    container_name: gokomodo
+    ports:
+        - "8080:8080"
     depends_on:
         - "postgres"
-    ports:
-        - "5000:5000"
-    env_file:
-    - .env
+    environment:
+    - APP_TIMEOUT=2
+    - SERVER_PORT=:8080
+    - DB_HOST=postgres
+    - DB_PORT=5432
+    - DB_USERNAME=postgres
+    - DB_PASSWORD=hwhwhwlol
+    - DB_NAME=gokomodo_db
+    - DB_SCHEMA=public
+    - DB_TIMEZONE=Asia/Jakarta
+    - DB_MAX_CON_IDLE=10
+    - DB_MAX_CON_OPEN=100
+    - JWT_SECRET=gokomodo-secret
   postgres:
     image: postgres
+    container_name: postgres
     restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=hwhwhwlol
-      - POSTGRES_DB=majoo_db
+      - POSTGRES_DB=gokomodo_db
     ports:
       - "5432:5432"

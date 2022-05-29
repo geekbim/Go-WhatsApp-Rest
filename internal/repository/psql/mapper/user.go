@@ -1,19 +1,26 @@
 package mapper
 
 import (
-	"go-rest-ddd/domain/entity"
-	"go-rest-ddd/internal/repository/psql/models"
+	"gokomodo/domain/entity"
+	"gokomodo/domain/valueobject"
+	"gokomodo/internal/repository/psql/models"
+	"gokomodo/pkg/common"
 )
 
 func ToDomainUser(m *models.User) *entity.User {
-	return &entity.User{
-		Id:        m.Id,
+	id, _ := common.StringToID(m.Id)
+	roleEnum, _ := valueobject.NewRoleFromString(m.Role)
+	role, _ := valueobject.NewRole(roleEnum)
+	user := &entity.User{
+		Id:        id,
+		Email:     m.Email,
 		Name:      m.Name,
-		UserName:  m.UserName,
 		Password:  m.Password,
+		Address:   m.Address,
+		Role:      role,
 		CreatedAt: m.CreatedAt,
-		CreatedBy: m.CreatedBy,
 		UpdatedAt: m.UpdatedAt,
-		UpdatedBy: m.UpdatedBy,
 	}
+
+	return user
 }

@@ -2,7 +2,7 @@ package postgres_repository
 
 import (
 	"database/sql"
-	"go-rest-ddd/domain/repository"
+	"gokomodo/domain/repository"
 )
 
 type userRepository struct {

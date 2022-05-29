@@ -4,310 +4,768 @@ package docs
 
 import "github.com/swaggo/swag"
 
-const docTemplate = `{
-    "swagger": "2.0",
-    "info": {
-      "version": "1.0.0",
-      "title": "Swagger Petstore",
-      "description": "A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification",
-      "termsOfService": "http://swagger.io/terms/",
-      "contact": {
-        "name": "Swagger API Team"
-      },
-      "license": {
-        "name": "MIT"
-      }
+const docTemplate = `
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Gokomodo",
+    "description": "Gokomodo API Documentation",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "Swagger API Team"
     },
-    "host": "localhost:5000",
-    "basePath": "/apis",
-    "schemes": [
-      "http"
-    ],
-    "consumes": [
-      "application/json"
-    ],
-    "produces": [
-      "application/json"
-    ],
-    "paths": {
-      "/pets": {
-        "get": {
-          "description": "Returns all pets from the system that the user has access to",
-          "operationId": "findPets",
-          "produces": [
-            "application/json",
-            "application/xml",
-            "text/xml",
-            "text/html"
-          ],
-          "parameters": [
-            {
-              "name": "tags",
-              "in": "query",
-              "description": "tags to filter by",
-              "required": false,
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "collectionFormat": "csv"
-            },
-            {
-              "name": "limit",
-              "in": "query",
-              "description": "maximum number of results to return",
-              "required": false,
-              "type": "integer",
-              "format": "int32"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "pet response",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Pet"
-                }
-              }
-            },
-            "default": {
-              "description": "unexpected error",
-              "schema": {
-                "$ref": "#/definitions/ErrorModel"
-              }
-            }
-          }
-        },
-        "post": {
-          "description": "Creates a new pet in the store.  Duplicates are allowed",
-          "operationId": "addPet",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "pet",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/apis",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "tags": [
+      {
+          "name": "Auth",
+          "description": "Operations about auth"
+      },
+      {
+          "name": "Seller",
+          "description": "Operations about seller"
+      },
+      {
+          "name": "Buyer",
+          "description": "Operations about buyer"
+      }
+  ],
+  "paths": {
+    "/v1/user/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "User login",
+        "operationId": "userLogin",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+              "name": "body",
               "in": "body",
-              "description": "Pet to add to the store",
+              "description": "User login request",
               "required": true,
               "schema": {
-                "$ref": "#/definitions/NewPet"
+                  "$ref": "#/definitions/NewUserLogin"
               }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "pet response",
-              "schema": {
-                "$ref": "#/definitions/Pet"
-              }
-            },
-            "default": {
-              "description": "unexpected error",
-              "schema": {
-                "$ref": "#/definitions/ErrorModel"
-              }
-            }
           }
-        }
-      },
-      "/pets/{id}": {
-        "get": {
-          "description": "Returns a user based on a single ID, if the user does not have access to the pet",
-          "operationId": "findPetById",
-          "produces": [
-            "application/json",
-            "application/xml",
-            "text/xml",
-            "text/html"
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of pet to fetch",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
+        ],
+        "responses": {
+          "200": {
+            "description": "User login response",
+            "schema": {
+              "$ref": "#/definitions/UserLogin"
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "pet response",
-              "schema": {
-                "$ref": "#/definitions/Pet"
-              }
-            },
-            "default": {
-              "description": "unexpected error",
-              "schema": {
-                "$ref": "#/definitions/ErrorModel"
-              }
-            }
-          }
-        },
-        "delete": {
-          "description": "deletes a single pet based on the ID supplied",
-          "operationId": "deletePet",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of pet to delete",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            }
-          ],
-          "responses": {
-            "204": {
-              "description": "pet deleted"
-            },
-            "default": {
-              "description": "unexpected error",
-              "schema": {
-                "$ref": "#/definitions/ErrorModel"
-              }
-            }
-          }
-        }
-      },
-      "/v1/user/login": {
-        "post": {
-          "description": "User login",
-          "operationId": "userLogin",
-          "produces": [
-            "application/json",
-          ],
-          "parameters": [
-            {
-                "name": "pet",
-                "in": "body",
-                "description": "User login request",
-                "required": true,
-                "schema": {
-                    "$ref": "#/definitions/NewUserLogin"
-                }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "User login response",
-              "schema": {
-                "$ref": "#/definitions/Pet"
-              }
-            },
-            "default": {
-              "description": "unexpected error",
-              "schema": {
-                "$ref": "#/definitions/ErrorModel"
-              }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
             }
           }
         }
       }
     },
-    "definitions": {
-      "Pet": {
-        "type": "object",
-        "allOf": [
+    "/v1/seller/product/list": {
+      "get": {
+        "tags": [
+          "Seller"
+        ],
+        "description": "Seller product list",
+        "operationId": "sellerProductList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
           {
-            "$ref": "#/definitions/NewPet"
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIU"
           },
           {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "integer",
-                "format": "int64"
-              }
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Seller product list response",
+            "schema": {
+              "$ref": "#/definitions/ProductList"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
             }
           }
-        ]
-      },
-      "NewPet": {
-        "type": "object",
-        "required": [
-          "name"
+        }
+      }
+    },
+    "/v1/seller/product/save": {
+      "post": {
+        "tags": [
+          "Seller"
         ],
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "tag": {
-            "type": "string"
-          }
-        }
-      },
-      "UserLogin": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "example": 200
-          },
-          "message": {
-            "type": "string",
-            "example": "Success"
-          },
-          "data": {
-            "$ref": "#/definitions/UserLoginModel"
-          }
-        }
-      },
-      "UserLoginModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "example": 1
-          },
-          "username": {
-            "type": "string",
-            "example": "root"
-          },
-          "token": {
-            "type": "string",
-            "example": "token"
-          }
-        }
-      },
-      "NewUserLogin": {
-        "type": "object",
-        "required": [
-          "username",
-          "password"
+        "description": "Seller create product",
+        "operationId": "sellerCreateProduct",
+        "produces": [
+          "application/json"
         ],
-        "properties": {
-          "username": {
-            "type": "string"
+        "parameters": [
+          {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIU"
           },
-          "password": {
-            "type": "string"
+          {
+              "name": "body",
+              "in": "body",
+              "description": "Seller create product request",
+              "required": true,
+              "schema": {
+                  "$ref": "#/definitions/NewSellerProduct"
+              }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Seller create product response",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
           }
         }
-      },
-      "ErrorModel": {
-        "type": "object",
-        "required": [
-          "code",
-          "message"
+      }
+    },
+    "/v1/seller/order/list": {
+      "get": {
+        "tags": [
+          "Seller"
         ],
-        "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32"
+        "description": "Seller order list",
+        "operationId": "sellerOrderList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIU"
           },
-          "message": {
-            "type": "string"
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Seller order list response",
+            "schema": {
+              "$ref": "#/definitions/OrderList"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/v1/seller/order/{orderId}": {
+      "put": {
+        "tags": [
+          "Seller"
+        ],
+        "description": "Seller accepted order",
+        "operationId": "sellerAcceptedOrder",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIU"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid",
+            "default": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Seller accepted order response",
+            "schema": {
+              "$ref": "#/definitions/OrderUpdate"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/v1/buyer/product/list": {
+      "get": {
+        "tags": [
+          "Buyer"
+        ],
+        "description": "Buyer product list",
+        "operationId": "buyerProductList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIU"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Buyer product list response",
+            "schema": {
+              "$ref": "#/definitions/ProductList"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/v1/buyer/order/save": {
+      "post": {
+        "tags": [
+          "Buyer"
+        ],
+        "description": "Buyer order product",
+        "operationId": "buyerOrderProduct",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIU"
+          },
+          {
+              "name": "body",
+              "in": "body",
+              "description": "Buyer order product request",
+              "required": true,
+              "schema": {
+                  "$ref": "#/definitions/NewBuyerOrder"
+              }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Buyer order product response",
+            "schema": {
+              "$ref": "#/definitions/OrderCreate"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/v1/buyer/order/list": {
+      "get": {
+        "tags": [
+          "Buyer"
+        ],
+        "description": "Buyer order list",
+        "operationId": "buyerOrderList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIU"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Buyer order list response",
+            "schema": {
+              "$ref": "#/definitions/OrderList"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
           }
         }
       }
     }
-  }`
+  },
+  "definitions": {
+    "NewUserLogin": {
+      "type": "object",
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "default": "seller@email.com"
+        },
+        "password": {
+          "type": "string",
+          "default": "qweasd123"
+        }
+      }
+    },
+    "UserLogin": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "example": 200
+        },
+        "message": {
+          "type": "string",
+          "example": "Success"
+        },
+        "data": {
+          "$ref": "#/definitions/UserLoginModel"
+        }
+      }
+    },
+    "UserLoginModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "uuid"
+        },
+        "email": {
+          "type": "string",
+          "example": "root"
+        },
+        "token": {
+          "type": "string",
+          "example": "token"
+        }
+      }
+    },
+    "UserProperty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "uuid"
+        },
+        "email": {
+          "type": "string",
+          "example": "name"
+        },
+        "name": {
+          "type": "string",
+          "example": "description"
+        },
+        "address": {
+          "type": "string",
+          "example": "address"
+        }
+      }
+    },
+    "NewSellerProduct": {
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "price"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "default": "Sabun Dettol"
+        },
+        "description": {
+          "type": "string",
+          "default": "Sabun cair untuk mandi"
+        },
+        "price": {
+          "type": "integer",
+          "default": 20000
+        }
+      }
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "example": 201
+        },
+        "message": {
+          "type": "string",
+          "example": "Success"
+        },
+        "data": {
+          "$ref": "#/definitions/ProductProperty"
+        }
+      }
+    },
+    "ProductList": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "example": 200
+        },
+        "message": {
+          "type": "string",
+          "example": "Success"
+        },
+        "data": {
+          "$ref": "#/definitions/ProductListModel"
+        }
+      }
+    },
+    "ProductListModel": {
+      "type": "object",
+      "properties": {
+        "products": {
+          "type": "array",
+          "items": {
+              "$ref": "#/definitions/ProductProperty"
+          }
+        },
+        "count": {
+          "type": "integer",
+          "example": 1
+        }
+      }
+    },
+    "ProductProperty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "uuid"
+        },
+        "name": {
+          "type": "string",
+          "example": "name"
+        },
+        "description": {
+          "type": "string",
+          "example": "description"
+        },
+        "price": {
+          "type": "integer",
+          "example": 10000
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "createdAt"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "updatedAt"
+        }
+      }
+    },
+    "NewBuyerOrder": {
+      "type": "object",
+      "required": [
+        "productId",
+        "qty"
+      ],
+      "properties": {
+        "productId": {
+          "type": "string",
+          "default": "uuid"
+        },
+        "qty": {
+          "type": "integer",
+          "default": 10
+        }
+      }
+    },
+    "OrderUpdate": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "example": 201
+        },
+        "message": {
+          "type": "string",
+          "example": "Success"
+        },
+        "data": {
+          "$ref": "#/definitions/OrderProperty"
+        }
+      }
+    },
+    "OrderList": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "example": 200
+        },
+        "message": {
+          "type": "string",
+          "example": "Success"
+        },
+        "data": {
+          "$ref": "#/definitions/OrderListModel"
+        }
+      }
+    },
+    "OrderListModel": {
+      "type": "object",
+      "properties": {
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderProperty"
+          }
+        },
+        "count": {
+          "type": "integer",
+          "example": 1
+        }
+      }
+    },
+    "OrderProperty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "uuid"
+        },
+        "buyer": {
+          "$ref": "#/definitions/UserProperty"
+        },
+        "seller": {
+          "$ref": "#/definitions/UserProperty"
+        },
+        "product": {
+          "$ref": "#/definitions/ProductProperty"
+        },
+        "qty": {
+          "type": "integer",
+          "example": 10
+        },
+        "totalPrice": {
+          "type": "integer",
+          "example": 100000
+        },
+        "status": {
+          "type": "string",
+          "example": "PENDING"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "createdAt"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "updatedAt"
+        }
+      }
+    },
+    "OrderCreate": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "example": 201
+        },
+        "message": {
+          "type": "string",
+          "example": "Success"
+        },
+        "data": {
+          "$ref": "#/definitions/OrderCreateProperty"
+        }
+      }
+    },
+    "OrderCreateProperty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "uuid"
+        },
+        "buyerId": {
+          "type": "string",
+          "example": "uuid"
+        },
+        "sellerId": {
+          "type": "string",
+          "example": "uuid"
+        },
+        "productId": {
+          "type": "string",
+          "example": "uuid"
+        },
+        "qty": {
+          "type": "integer",
+          "example": 10
+        },
+        "totalPrice": {
+          "type": "integer",
+          "example": 100000
+        },
+        "status": {
+          "type": "string",
+          "example": "ACCEPTED"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "createdAt"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "updatedAt"
+        }
+      }
+    },
+    "ErrorModel": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
+`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{

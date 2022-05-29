@@ -1,6 +1,16 @@
 package utils
 
-import "strconv"
+import (
+	"strconv"
+
+	"golang.org/x/crypto/bcrypt"
+)
+
+func CheckPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+
+	return err == nil
+}
 
 func StringToInt(value string) (conv int) {
 	if value != "" {

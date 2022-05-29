@@ -4,19 +4,19 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"go-rest-ddd/domain/entity"
-	"go-rest-ddd/internal/repository/psql/mapper"
-	"go-rest-ddd/internal/repository/psql/models"
+	"gokomodo/domain/entity"
+	"gokomodo/internal/repository/psql/mapper"
+	"gokomodo/internal/repository/psql/models"
 
 	"github.com/rocketlaunchr/dbq"
 )
 
-func (repository *userRepository) GetUserByUserNameAndPassword(ctx context.Context, userName, password string) (*entity.User, error) {
-	stmt := fmt.Sprintf(`select * from %s where user_name = $1 and password = MD5($2) limit 1`, models.User{}.TableName())
+func (repository *userRepository) FindUserByEmail(ctx context.Context, email string) (*entity.User, error) {
+	stmt := fmt.Sprintf(`select id, email, name, role, password from %s where email = $1 limit 1`, models.User{}.TableName())
 
 	opts := &dbq.Options{SingleResult: true, ConcreteStruct: models.User{}, DecoderConfig: dbq.StdTimeConversionConfig()}
 
-	result, err := dbq.Q(ctx, repository.db, stmt, opts, userName, password)
+	result, err := dbq.Q(ctx, repository.db, stmt, opts, email)
 	if err != nil {
 		return nil, err
 	}

@@ -3,12 +3,12 @@ package user_handler
 import (
 	"context"
 	"encoding/json"
-	"go-rest-ddd/domain/entity"
-	"go-rest-ddd/internal/delivery/request"
-	"go-rest-ddd/internal/delivery/response"
-	"go-rest-ddd/pkg/utils"
+	"gokomodo/domain/entity"
+	"gokomodo/internal/delivery/request"
+	"gokomodo/internal/delivery/response"
+	"gokomodo/pkg/exceptions"
+	"gokomodo/pkg/utils"
 	"net/http"
-	"strconv"
 )
 
 func (handler *userHandler) Login(w http.ResponseWriter, r *http.Request) {
@@ -16,27 +16,27 @@ func (handler *userHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&req); err != nil {
-		utils.RespondWithError(w, http.StatusBadRequest, []error{err})
+		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRDOMAIN), []error{err})
 		return
 	}
 
 	user, errValidate := entity.NewUser(&entity.UserDTO{
-		UserName: req.UserName,
+		Email:    req.Email,
 		Password: req.Password,
 	})
 	if errValidate != nil {
-		utils.RespondWithError(w, http.StatusBadRequest, []error{errValidate})
+		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRDOMAIN), errValidate.Errors)
 		return
 	}
 
 	ctx := context.Background()
-	res, err := handler.userUseCase.Login(ctx, user.UserName, user.Password)
+	user, err := handler.userUseCase.Login(ctx, user)
 	if err != nil {
-		utils.RespondWithError(w, http.StatusBadRequest, err.Errors.Errors)
+		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRBUSSINESS), err.Errors.Errors)
 		return
 	}
 
-	token := handler.jwtService.GenerateToken(strconv.Itoa(res.Id))
+	token := handler.jwtService.GenerateToken(user.Id.String(), user.Role.String())
 
-	utils.RespondWithJSON(w, http.StatusCreated, response.MapUserDomainToResponse(res, token))
+	utils.RespondWithJSON(w, http.StatusOK, response.MapUserDomainToResponse(user, token))
 }

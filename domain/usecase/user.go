@@ -2,10 +2,10 @@ package usecase
 
 import (
 	"context"
-	"go-rest-ddd/domain/entity"
-	"go-rest-ddd/pkg/exceptions"
+	"gokomodo/domain/entity"
+	"gokomodo/pkg/exceptions"
 )
 
 type UserUseCase interface {
-	Login(ctx context.Context, userName, password string) (*entity.User, *exceptions.CustomerError)
+	Login(ctx context.Context, user *entity.User) (*entity.User, *exceptions.CustomerError)
 }

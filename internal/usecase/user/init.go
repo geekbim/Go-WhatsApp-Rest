@@ -1,8 +1,8 @@
 package user
 
 import (
-	"go-rest-ddd/domain/repository"
-	"go-rest-ddd/domain/usecase"
+	"gokomodo/domain/repository"
+	"gokomodo/domain/usecase"
 )
 
 type userInteractor struct {

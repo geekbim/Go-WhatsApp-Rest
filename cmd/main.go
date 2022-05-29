@@ -4,14 +4,16 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	_ "go-rest-ddd/docs"
-	"go-rest-ddd/internal/config"
-	transaction_handler "go-rest-ddd/internal/delivery/http/transaction"
-	user_handler "go-rest-ddd/internal/delivery/http/user"
-	transaction_repository "go-rest-ddd/internal/repository/psql/transaction"
-	user_repository "go-rest-ddd/internal/repository/psql/user"
-	"go-rest-ddd/pkg/logger"
-	"go-rest-ddd/pkg/service/jwt"
+	_ "gokomodo/docs"
+	"gokomodo/internal/config"
+	order_handler "gokomodo/internal/delivery/http/order"
+	product_handler "gokomodo/internal/delivery/http/product"
+	user_handler "gokomodo/internal/delivery/http/user"
+	order_repository "gokomodo/internal/repository/psql/order"
+	product_repository "gokomodo/internal/repository/psql/product"
+	user_repository "gokomodo/internal/repository/psql/user"
+	"gokomodo/pkg/logger"
+	"gokomodo/pkg/service/jwt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -22,12 +24,13 @@ import (
 )
 
 var (
-	cfg             = config.Server()
-	appLogger       = logger.NewApiLogger()
-	db              = config.InitDatabase()
-	jwtService      = jwt.NewJWTService()
-	userRepo        = user_repository.NewUserRepository(db)
-	transactionRepo = transaction_repository.NewTransactionRepository(db)
+	cfg         = config.Server()
+	appLogger   = logger.NewApiLogger()
+	db          = config.InitDatabase()
+	jwtService  = jwt.NewJWTService()
+	userRepo    = user_repository.NewUserRepository(db)
+	productRepo = product_repository.NewProductRepository(db)
+	orderRepo   = order_repository.NewOrderRepository(db)
 )
 
 func main() {
@@ -39,9 +42,9 @@ func main() {
 	initHandler(router)
 	http.Handle("/", router)
 
-	router.PathPrefix("/documentation/").Handler(httpSwagger.WrapHandler)
+	router.PathPrefix("/doc/").Handler(httpSwagger.WrapHandler)
 
-	appLogger.Info("go-rest-ddd Service Run on " + cfg.Port)
+	appLogger.Info("gokomodo Service Run on " + cfg.Port)
 
 	ctx, cancel := context.WithCancel(context.Background())
 
@@ -65,5 +68,6 @@ func main() {
 
 func initHandler(router *mux.Router) {
 	user_handler.UserHandler(router, jwtService, userRepo)
-	transaction_handler.TransactionHandler(router, jwtService, transactionRepo)
+	product_handler.ProductHandler(router, jwtService, productRepo)
+	order_handler.OrderHandler(router, jwtService, orderRepo, productRepo)
 }

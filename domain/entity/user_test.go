@@ -2,41 +2,48 @@ package entity_test
 
 import (
 	"errors"
-	"go-rest-ddd/domain/entity"
-	"go-rest-ddd/testdata"
+	"gokomodo/domain/entity"
+	"gokomodo/testdata"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUser(t *testing.T) {
+func TestUserDomain(t *testing.T) {
 	userDTO := testdata.NewUserDTO()
 
 	t.Run("NewUser", func(t *testing.T) {
 		res, err := entity.NewUser(userDTO)
 
 		assert.Nil(t, err)
-		assert.Equal(t, userDTO.UserName, res.UserName)
+		assert.Equal(t, userDTO.Email, res.Email)
+		assert.Equal(t, userDTO.Password, res.Password)
 	})
 
-	t.Run("NewUserErrUserName", func(t *testing.T) {
-		userDTO.UserName = ""
-		res, err := entity.NewUser(userDTO)
+	t.Run("NewUserErrEmail", func(t *testing.T) {
+		userDTO.Email = ""
+		err := errors.New("email cannot be empty")
+		expectedErr := []error{
+			err,
+		}
 
-		expectedErr := errors.New("username cannot be empty")
+		res, errEntity := entity.NewUser(userDTO)
 
-		assert.Equal(t, expectedErr, err)
+		assert.Equal(t, expectedErr, errEntity.Errors)
 		assert.Nil(t, res)
 	})
 
 	t.Run("NewUserErrPassword", func(t *testing.T) {
-		userDTO.UserName = "admin1"
+		userDTO.Email = "test@email.com"
 		userDTO.Password = ""
-		res, err := entity.NewUser(userDTO)
+		err := errors.New("password cannot be empty")
+		expectedErr := []error{
+			err,
+		}
 
-		expectedErr := errors.New("password cannot be empty")
+		res, errEntity := entity.NewUser(userDTO)
 
-		assert.Equal(t, expectedErr, err)
+		assert.Equal(t, expectedErr, errEntity.Errors)
 		assert.Nil(t, res)
 	})
 }

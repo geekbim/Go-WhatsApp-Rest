@@ -1,7 +1,7 @@
 package config
 
 import (
-	"go-rest-ddd/pkg/config"
+	"gokomodo/pkg/config"
 	"os"
 	"strconv"
 	"time"

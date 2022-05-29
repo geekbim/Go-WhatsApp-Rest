@@ -1,1 +1,0 @@
-INSERT INTO users VALUES (1, 'Admin 1', 'admin1', MD5('admin1'), NOW(), 1, NOW(),1), (2, 'Admin 2', 'admin2', MD5('admin2'), NOW(), 2, NOW(),2);

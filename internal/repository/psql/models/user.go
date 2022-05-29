@@ -3,14 +3,14 @@ package models
 import "time"
 
 type User struct {
-	Id        int       `dbq:"id"`
+	Id        string    `dbq:"id"`
+	Email     string    `dbq:"email"`
 	Name      string    `dbq:"name"`
-	UserName  string    `dbq:"user_name"`
 	Password  string    `dbq:"password"`
+	Address   string    `dbq:"address"`
+	Role      string    `dbq:"role"`
 	CreatedAt time.Time `dbq:"created_at"`
-	CreatedBy int       `dbq:"created_by"`
 	UpdatedAt time.Time `dbq:"updated_at"`
-	UpdatedBy int       `dbq:"updated_by"`
 }
 
 func (User) TableName() string {

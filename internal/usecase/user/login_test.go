@@ -3,9 +3,9 @@ package user_test
 import (
 	"context"
 	"errors"
-	"go-rest-ddd/internal/mocks"
-	user_usecase "go-rest-ddd/internal/usecase/user"
-	"go-rest-ddd/testdata"
+	"gokomodo/internal/mocks"
+	user_usecase "gokomodo/internal/usecase/user"
+	"gokomodo/testdata"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -19,17 +19,20 @@ func TestLogin(t *testing.T) {
 
 	userDTO := testdata.NewUserDTO()
 	user := testdata.NewUser(userDTO)
+	user.Password = "qweasd123"
+	user1 := testdata.NewUser(userDTO)
 
 	userRepo.
-		On("GetUserByUserNameAndPassword", mock.Anything, user.UserName, user.Password).
-		Return(user, nil)
+		On("FindUserByEmail", mock.Anything, user.Email).
+		Return(user1, nil)
 
 	useCase := user_usecase.NewUserInteractor(userRepo)
 
-	res, err := useCase.Login(ctx, user.UserName, user.Password)
+	res, err := useCase.Login(ctx, user)
+
 	assert.Nil(t, err)
-	assert.Equal(t, user.UserName, res.UserName)
-	assert.Equal(t, user.Password, res.Password)
+	assert.Equal(t, user.Email, res.Email)
+	assert.Equal(t, user1.Password, res.Password)
 }
 
 func TestLoginErr(t *testing.T) {
@@ -46,13 +49,13 @@ func TestLoginErr(t *testing.T) {
 	}
 
 	userRepo.
-		On("GetUserByUserNameAndPassword", mock.Anything, user.UserName, user.Password).
+		On("FindUserByEmail", mock.Anything, user.Email).
 		Return(user, err)
 
 	useCase := user_usecase.NewUserInteractor(userRepo)
 
-	res, errUseCase := useCase.Login(ctx, user.UserName, user.Password)
+	res, errUseCase := useCase.Login(ctx, user)
 
 	assert.Nil(t, res)
-	assert.Equal(t, errUseCase.Errors.Errors, expectedErr)
+	assert.Equal(t, expectedErr, errUseCase.Errors.Errors)
 }

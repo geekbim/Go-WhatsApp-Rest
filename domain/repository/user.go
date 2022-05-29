@@ -2,9 +2,9 @@ package repository
 
 import (
 	"context"
-	"go-rest-ddd/domain/entity"
+	"gokomodo/domain/entity"
 )
 
 type UserRepository interface {
-	GetUserByUserNameAndPassword(ctx context.Context, userName, password string) (*entity.User, error)
+	FindUserByEmail(ctx context.Context, email string) (*entity.User, error)
 }

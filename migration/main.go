@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"go-rest-ddd/pkg/config"
+	"gokomodo/pkg/config"
 	"log"
 	"os"
 	"strconv"

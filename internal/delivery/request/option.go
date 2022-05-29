@@ -1,6 +1,6 @@
 package request
 
-import "go-rest-ddd/pkg/utils"
+import "gokomodo/pkg/utils"
 
 type Option struct {
 	Pagination utils.PaginationOption

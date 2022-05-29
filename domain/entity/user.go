@@ -2,45 +2,58 @@ package entity
 
 import (
 	"errors"
+	"gokomodo/domain/valueobject"
+	"gokomodo/pkg/common"
 	"time"
+
+	"github.com/hashicorp/go-multierror"
 )
 
 type User struct {
-	Id        int
+	Id        common.ID
+	Email     string
 	Name      string
-	UserName  string
 	Password  string
+	Address   string
+	Role      *valueobject.Role
 	CreatedAt time.Time
-	CreatedBy int
 	UpdatedAt time.Time
-	UpdatedBy int
 }
 
 type UserDTO struct {
-	UserName string
+	Email    string
 	Password string
 }
 
-func NewUser(userDTO *UserDTO) (*User, error) {
+func NewUser(userDTO *UserDTO) (*User, *multierror.Error) {
+	var multierr *multierror.Error
+
 	user := &User{
-		UserName: userDTO.UserName,
+		Email:    userDTO.Email,
 		Password: userDTO.Password,
 	}
 
 	if errValidate := user.Validate(); errValidate != nil {
-		return nil, errValidate
+		multierr = multierror.Append(multierr, errValidate)
+	}
+
+	if multierr != nil {
+		return nil, multierr
 	}
 
 	return user, nil
 }
 
-func (user *User) Validate() error {
-	if user.UserName == "" {
-		return errors.New("username cannot be empty")
-	}
-	if user.Password == "" {
-		return errors.New("password cannot be empty")
+func (user *User) Validate() *multierror.Error {
+	var multierr *multierror.Error
+
+	if user.Email == "" {
+		multierr = multierror.Append(multierr, errors.New("email cannot be empty"))
 	}
 
-	return nil
+	if user.Password == "" {
+		multierr = multierror.Append(multierr, errors.New("password cannot be empty"))
+	}
+
+	return multierr
 }

@@ -2,7 +2,7 @@ package config
 
 import (
 	"database/sql"
-	"go-rest-ddd/pkg/config"
+	"gokomodo/pkg/config"
 	"strings"
 
 	_ "github.com/lib/pq"
