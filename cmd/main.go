@@ -6,6 +6,7 @@ import (
 	"fmt"
 	_ "gokomodo/docs"
 	"gokomodo/internal/config"
+	docs_handler "gokomodo/internal/delivery/http/docs"
 	order_handler "gokomodo/internal/delivery/http/order"
 	product_handler "gokomodo/internal/delivery/http/product"
 	user_handler "gokomodo/internal/delivery/http/user"
@@ -20,7 +21,6 @@ import (
 	"syscall"
 
 	"github.com/gorilla/mux"
-	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 var (
@@ -41,8 +41,6 @@ func main() {
 
 	initHandler(router)
 	http.Handle("/", router)
-
-	router.PathPrefix("/doc/").Handler(httpSwagger.WrapHandler)
 
 	appLogger.Info("gokomodo Service Run on " + cfg.Port)
 
@@ -70,4 +68,5 @@ func initHandler(router *mux.Router) {
 	user_handler.UserHandler(router, jwtService, userRepo)
 	product_handler.ProductHandler(router, jwtService, productRepo)
 	order_handler.OrderHandler(router, jwtService, orderRepo, productRepo)
+	docs_handler.DocsHandler(router)
 }

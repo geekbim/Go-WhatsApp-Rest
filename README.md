@@ -39,7 +39,7 @@
 
 ### Docs Swagger
 ```sh
-    http://localhost:8080/doc/index.html
+    http://localhost:8080/docs/index.html
 ```
 
 ### Docs postman
