@@ -1,3 +1,0 @@
-INSERT INTO users VALUES 
-    ('35da70af-aa50-44dc-ae6b-060a0f9e6933'::uuid, 'seller@email.com', 'Seller', '$2a$04$RrVwWOU9AjhQ3sO1UAYkE.98pEZRnXffcl7CRWskvejdqXBuiBm2i', 'Jakarta Barat', 'SELLER', '2022-05-27 21:01:59.472', '2022-05-27 21:01:59.472'), 
-    ('3b584960-f83f-480f-b2ee-2f66e0e4ac69'::uuid, 'buyer@email.com', 'Buyer', '$2a$04$RrVwWOU9AjhQ3sO1UAYkE.98pEZRnXffcl7CRWskvejdqXBuiBm2i', 'Jakarta Timur', 'BUYER', '2022-05-27 21:01:59.472', '2022-05-27 21:01:59.472');

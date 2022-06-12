@@ -9,8 +9,8 @@ const docTemplate = `
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Gokomodo",
-    "description": "Gokomodo API Documentation",
+    "title": "go-wa-rest",
+    "description": "go-wa-rest API Documentation",
     "termsOfService": "http://swagger.io/terms/",
     "contact": {
       "name": "Swagger API Team"

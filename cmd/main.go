@@ -2,47 +2,36 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
-	_ "gokomodo/docs"
-	"gokomodo/internal/config"
-	docs_handler "gokomodo/internal/delivery/http/docs"
-	order_handler "gokomodo/internal/delivery/http/order"
-	product_handler "gokomodo/internal/delivery/http/product"
-	user_handler "gokomodo/internal/delivery/http/user"
-	order_repository "gokomodo/internal/repository/psql/order"
-	product_repository "gokomodo/internal/repository/psql/product"
-	user_repository "gokomodo/internal/repository/psql/user"
-	"gokomodo/pkg/logger"
-	"gokomodo/pkg/service/jwt"
+	_ "go-wa-rest/docs"
+	"go-wa-rest/internal/config"
+	docs_handler "go-wa-rest/internal/delivery/http/docs"
+	whatsapp_handler "go-wa-rest/internal/delivery/http/whatsapp"
+	"go-wa-rest/pkg/logger"
+	"go-wa-rest/pkg/service/whatsapp"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/gorilla/mux"
+	"go.mau.fi/whatsmeow"
 )
 
 var (
-	cfg         = config.Server()
-	appLogger   = logger.NewApiLogger()
-	db          = config.InitDatabase()
-	jwtService  = jwt.NewJWTService()
-	userRepo    = user_repository.NewUserRepository(db)
-	productRepo = product_repository.NewProductRepository(db)
-	orderRepo   = order_repository.NewOrderRepository(db)
+	cfg       = config.Server()
+	appLogger = logger.NewApiLogger()
 )
 
 func main() {
-	psqlConn := config.InitDatabase()
-	defer func(db *sql.DB) { _ = db.Close() }(psqlConn)
+	waClient := whatsapp.InitWhatsApp()
 
 	router := mux.NewRouter()
 
-	initHandler(router)
+	initHandler(router, waClient)
 	http.Handle("/", router)
 
-	appLogger.Info("gokomodo Service Run on " + cfg.Port)
+	appLogger.Info("go-wa-rest Service Run on " + cfg.Port)
 
 	ctx, cancel := context.WithCancel(context.Background())
 
@@ -58,15 +47,14 @@ func main() {
 	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
 	select {
 	case v := <-quit:
+		waClient.Disconnect()
 		appLogger.Error(fmt.Sprintf("signal.Notify: %v", v))
 	case done := <-ctx.Done():
 		appLogger.Error(fmt.Sprintf("ctx.Done: %v", done))
 	}
 }
 
-func initHandler(router *mux.Router) {
-	user_handler.UserHandler(router, jwtService, userRepo)
-	product_handler.ProductHandler(router, jwtService, productRepo)
-	order_handler.OrderHandler(router, jwtService, orderRepo, productRepo)
+func initHandler(router *mux.Router, waClient *whatsmeow.Client) {
 	docs_handler.DocsHandler(router)
+	whatsapp_handler.WhatsAppHandler(router, waClient)
 }

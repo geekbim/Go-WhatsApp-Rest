@@ -1,7 +1,7 @@
 package config
 
 import (
-	"gokomodo/pkg/config"
+	"go-wa-rest/pkg/config"
 	"os"
 	"strconv"
 	"time"
@@ -32,7 +32,6 @@ func Server() ServerConfig {
 func (c *ServerConfig) Validate() error {
 	fields := []string{
 		"SERVER_PORT",
-		"DB_TIMEZONE",
 	}
 
 	for _, f := range fields {
