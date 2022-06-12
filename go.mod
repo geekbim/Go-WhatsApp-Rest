@@ -1,21 +1,18 @@
-module gokomodo
+module go-wa-rest
 
 go 1.16
 
 require (
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/go-playground/assert/v2 v2.0.1
-	github.com/golang-migrate/migrate/v4 v4.15.2
-	github.com/google/uuid v1.3.0
-	github.com/gorilla/mux v1.7.4
+	github.com/go-playground/assert v1.2.1
+	github.com/gorilla/mux v1.8.0
 	github.com/hashicorp/go-multierror v1.1.1
-	github.com/lib/pq v1.10.5
-	github.com/rocketlaunchr/dbq v1.1.11
-	github.com/rocketlaunchr/dbq/v2 v2.6.0
+	github.com/joho/godotenv v1.4.0 // indirect
+	github.com/mattn/go-sqlite3 v1.14.13
 	github.com/sirupsen/logrus v1.8.1
-	github.com/spf13/cobra v1.4.0
-	github.com/stretchr/testify v1.7.0
-	github.com/swaggo/http-swagger v1.2.8
+	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
+	github.com/stretchr/testify v1.7.2
+	github.com/swaggo/http-swagger v1.3.0
 	github.com/swaggo/swag v1.8.2
-	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
+	go.mau.fi/whatsmeow v0.0.0-20220604174810-f28d984f1b9a
+	google.golang.org/protobuf v1.28.0
 )
