@@ -30,6 +30,9 @@ func main() {
 
 	initHandler(router, waClient)
 	http.Handle("/", router)
+	router.HandleFunc("/api", func(w http.ResponseWriter, req *http.Request) {
+		fmt.Fprintln(w, "ok")
+	})
 
 	appLogger.Info("go-wa-rest Service Run on " + cfg.Port)
 
