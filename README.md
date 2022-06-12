@@ -18,7 +18,7 @@
     coming soon
 ```
 
-### Docs postman
+### Docs Postman
 ```sh
     coming soon
 ```

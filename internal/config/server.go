@@ -5,6 +5,8 @@ import (
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 type ServerConfig struct {
@@ -18,11 +20,16 @@ func convertInt(env string) int {
 }
 
 func Server() ServerConfig {
+	err := godotenv.Load("./.env")
+	if err != nil {
+		panic("Error loading .env file")
+	}
+
 	cfg := ServerConfig{
 		Port:    os.Getenv("SERVER_PORT"),
 		TimeOut: time.Duration(convertInt("APP_TIMEOUT")) * time.Second,
 	}
-	err := cfg.Validate()
+	err = cfg.Validate()
 	if err != nil {
 		panic(err)
 	}
