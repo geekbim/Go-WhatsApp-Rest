@@ -1,3 +1,4 @@
+// +heroku goVersion go1.16
 module go-wa-rest
 
 go 1.16
