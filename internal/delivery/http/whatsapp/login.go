@@ -2,9 +2,9 @@ package whatsapp_handler
 
 import (
 	"context"
-	"go-wa-rest/internal/delivery/response"
-	"go-wa-rest/pkg/exceptions"
-	"go-wa-rest/pkg/utils"
+	"go_wa_rest/internal/delivery/response"
+	"go_wa_rest/pkg/exceptions"
+	"go_wa_rest/pkg/utils"
 	"net/http"
 )
 

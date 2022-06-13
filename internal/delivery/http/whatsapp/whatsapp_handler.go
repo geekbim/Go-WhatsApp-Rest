@@ -1,8 +1,8 @@
 package whatsapp_handler
 
 import (
-	"go-wa-rest/domain/usecase"
-	whatsapp_usecase "go-wa-rest/internal/usecase/whatsapp"
+	"go_wa_rest/domain/usecase"
+	whatsapp_usecase "go_wa_rest/internal/usecase/whatsapp"
 
 	"github.com/gorilla/mux"
 	"go.mau.fi/whatsmeow"

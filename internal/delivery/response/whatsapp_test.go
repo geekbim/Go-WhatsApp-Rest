@@ -1,8 +1,8 @@
 package response_test
 
 import (
-	"go-wa-rest/internal/delivery/response"
-	"go-wa-rest/testdata"
+	"go_wa_rest/internal/delivery/response"
+	"go_wa_rest/testdata"
 	"testing"
 
 	"github.com/go-playground/assert"

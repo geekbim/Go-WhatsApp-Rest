@@ -1,8 +1,8 @@
 package entity_test
 
 import (
-	"go-wa-rest/domain/entity"
-	"go-wa-rest/testdata"
+	"go_wa_rest/domain/entity"
+	"go_wa_rest/testdata"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

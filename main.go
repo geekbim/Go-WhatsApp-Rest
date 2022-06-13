@@ -3,12 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
-	_ "go-wa-rest/docs"
-	"go-wa-rest/internal/config"
-	docs_handler "go-wa-rest/internal/delivery/http/docs"
-	whatsapp_handler "go-wa-rest/internal/delivery/http/whatsapp"
-	"go-wa-rest/pkg/logger"
-	"go-wa-rest/pkg/service/whatsapp"
+	_ "go_wa_rest/docs"
+	"go_wa_rest/internal/config"
+	docs_handler "go_wa_rest/internal/delivery/http/docs"
+	whatsapp_handler "go_wa_rest/internal/delivery/http/whatsapp"
+	"go_wa_rest/pkg/logger"
+	"go_wa_rest/pkg/service/whatsapp"
 	"net/http"
 	"os"
 	"os/signal"
@@ -34,7 +34,7 @@ func main() {
 		fmt.Fprintln(w, "ok")
 	})
 
-	appLogger.Info("go-wa-rest Service Run on " + cfg.Port)
+	appLogger.Info("go_wa_rest Service Run on " + cfg.Port)
 
 	ctx, cancel := context.WithCancel(context.Background())
 

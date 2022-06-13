@@ -1,7 +1,7 @@
 package config
 
 import (
-	"go-wa-rest/pkg/config"
+	"go_wa_rest/pkg/config"
 	"os"
 	"strconv"
 	"time"
