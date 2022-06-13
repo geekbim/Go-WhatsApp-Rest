@@ -2,8 +2,8 @@ package usecase
 
 import (
 	"context"
-	"go-wa-rest/domain/entity"
-	"go-wa-rest/pkg/exceptions"
+	"go_wa_rest/domain/entity"
+	"go_wa_rest/pkg/exceptions"
 )
 
 type WhatsAppUseCase interface {

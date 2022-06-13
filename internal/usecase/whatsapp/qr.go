@@ -2,8 +2,8 @@ package whatsapp
 
 import (
 	"context"
-	"go-wa-rest/pkg/exceptions"
-	"go-wa-rest/pkg/service/whatsapp"
+	"go_wa_rest/pkg/exceptions"
+	"go_wa_rest/pkg/service/whatsapp"
 
 	"github.com/hashicorp/go-multierror"
 )

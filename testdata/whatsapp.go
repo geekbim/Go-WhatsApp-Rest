@@ -1,6 +1,6 @@
 package testdata
 
-import "go-wa-rest/domain/entity"
+import "go_wa_rest/domain/entity"
 
 func NewWhatsAppDTO() *entity.WhatsAppDTO {
 	return &entity.WhatsAppDTO{

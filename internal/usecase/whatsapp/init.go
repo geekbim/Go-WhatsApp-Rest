@@ -1,7 +1,7 @@
 package whatsapp
 
 import (
-	"go-wa-rest/domain/usecase"
+	"go_wa_rest/domain/usecase"
 
 	"go.mau.fi/whatsmeow"
 )

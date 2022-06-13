@@ -1,1 +1,1 @@
-web: bin/go-wa-rest
+web: bin/go_wa_rest

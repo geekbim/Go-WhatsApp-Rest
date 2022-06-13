@@ -1,6 +1,6 @@
 package response
 
-import "go-wa-rest/domain/entity"
+import "go_wa_rest/domain/entity"
 
 type WhatsApp struct {
 	Msisdn  string `json:"msisdn"`
