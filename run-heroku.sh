@@ -1,4 +1,4 @@
-go build -o bin/go_wa_rest -v cmd/main.go
+go build -o bin/go_wa_rest -v .
 git add .
 git commit -m "initial commit"
 git push origin development
