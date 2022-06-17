@@ -26,7 +26,7 @@ func Server() ServerConfig {
 	}
 
 	cfg := ServerConfig{
-		Port:    os.Getenv("PORT"),
+		Port:    ":8000",
 		TimeOut: time.Duration(convertInt("APP_TIMEOUT")) * time.Second,
 	}
 	err = cfg.Validate()
@@ -38,7 +38,7 @@ func Server() ServerConfig {
 
 func (c *ServerConfig) Validate() error {
 	fields := []string{
-		"PORT",
+		"SERVER_PORT",
 	}
 
 	for _, f := range fields {
