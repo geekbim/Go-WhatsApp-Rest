@@ -26,7 +26,7 @@ func Server() ServerConfig {
 	}
 
 	cfg := ServerConfig{
-		Port:    ":8000",
+		Port:    os.Getenv("SERVER_PORT"),
 		TimeOut: time.Duration(convertInt("APP_TIMEOUT")) * time.Second,
 	}
 	err = cfg.Validate()
