@@ -39,7 +39,7 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	go func() {
-		err := http.ListenAndServe(":8000", router)
+		err := http.ListenAndServe(":"+cfg.Port, router)
 		if err != nil {
 			appLogger.Error(err)
 			cancel()
