@@ -17,6 +17,8 @@ func WhatsAppGenerateQR(qrChan <-chan whatsmeow.QRChannelItem) (string, int) {
 			if evt.Event == "code" {
 				qrChanCode <- evt.Code
 				qrChanTimeout <- int(evt.Timeout.Seconds())
+			} else {
+				qrChanCode <- "you have logged in"
 			}
 		}
 	}()
