@@ -20,10 +20,14 @@ func (handler *whatsAppHandler) SendText(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	whatsApp := entity.NewWhatsApp(&entity.WhatsAppDTO{
+	whatsApp, errValidate := entity.NewWhatsApp(&entity.WhatsAppDTO{
 		Msisdn:  req.Msisdn,
 		Message: req.Message,
 	})
+	if errValidate != nil {
+		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRBUSSINESS), errValidate.Errors)
+		return
+	}
 
 	whatsApp, errUseCase := handler.whatsAppUseCase.SendMessage(context.Background(), whatsApp)
 	if errUseCase != nil {

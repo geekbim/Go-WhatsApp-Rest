@@ -29,7 +29,7 @@ func (interactor *whatsAppInteractor) Logout(ctx context.Context) *exceptions.Cu
 		return nil
 	}
 
-	multierr = multierror.Append(multierr, errors.New("WhatsApp Client is not Valid"))
+	multierr = multierror.Append(multierr, errors.New("whatsApp client is not valid"))
 	return &exceptions.CustomerError{
 		Status: exceptions.ERRBUSSINESS,
 		Errors: multierr,
