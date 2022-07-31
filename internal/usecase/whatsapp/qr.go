@@ -15,7 +15,9 @@ func (interactor *whatsAppInteractor) GetQr(ctx context.Context) (string, int, *
 		multierr  *multierror.Error
 	)
 
-	interactor.waClient.Disconnect()
+	if interactor.waClient == nil {
+		interactor.waClient = whatsapp.InitWhatsApp()
+	}
 
 	if interactor.waClient.Store.ID == nil {
 		// No ID stored, new login
@@ -32,6 +34,8 @@ func (interactor *whatsAppInteractor) GetQr(ctx context.Context) (string, int, *
 			panic(err)
 		}
 
+		interactor.waClient.SendPresence("available")
+
 		qrImage, qrTimeOut = whatsapp.WhatsAppGenerateQR(qrChan)
 		qrImage = "data:image/png;base64," + qrImage
 	} else {
@@ -44,6 +48,7 @@ func (interactor *whatsAppInteractor) GetQr(ctx context.Context) (string, int, *
 				Errors: multierr,
 			}
 		}
+		interactor.waClient.SendPresence("available")
 	}
 
 	return qrImage, qrTimeOut, nil
