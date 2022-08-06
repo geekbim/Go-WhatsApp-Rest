@@ -15,9 +15,7 @@ func (interactor *whatsAppInteractor) GetQr(ctx context.Context) (string, int, *
 		multierr  *multierror.Error
 	)
 
-	if interactor.waClient == nil {
-		interactor.waClient = whatsapp.InitWhatsApp()
-	}
+	interactor.waClient = whatsapp.InitWhatsApp()
 
 	if interactor.waClient.Store.ID == nil {
 		// No ID stored, new login
