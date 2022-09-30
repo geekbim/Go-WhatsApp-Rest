@@ -23,6 +23,8 @@ func WhatsAppHandler(
 		whatsAppUseCase: whatsAppUseCase,
 	}
 	r.HandleFunc("/api/v1/whatsapp/login", handler.Login).Methods("POST")
+	r.HandleFunc("/api/v2/whatsapp/login", handler.LoginV2).Methods("POST")
 	r.HandleFunc("/api/v1/whatsapp/send/text", handler.SendText).Methods("POST")
+	r.HandleFunc("/api/v2/whatsapp/send/text", handler.SendTextV2).Methods("POST")
 	r.HandleFunc("/api/v1/whatsapp/logout", handler.Logout).Methods("POST")
 }
