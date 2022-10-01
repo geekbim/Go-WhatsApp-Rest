@@ -22,7 +22,7 @@ func (interactor *whatsAppInteractor) SendMessage(ctx context.Context, whatsApp 
 		Conversation: proto.String(whatsApp.Message),
 	}
 
-	_, err := interactor.waClient.SendMessage(remoteJID, msgId, msgContent)
+	_, err := interactor.waClient.SendMessage(ctx, remoteJID, msgId, msgContent)
 	if err != nil {
 		multierr = multierror.Append(multierr, err)
 		return nil, &exceptions.CustomerError{
