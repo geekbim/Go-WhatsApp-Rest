@@ -12,4 +12,5 @@ type WhatsAppUseCase interface {
 	SendMessage(ctx context.Context, whatsApp *entity.WhatsApp) (*entity.WhatsApp, *exceptions.CustomerError)
 	SendMessageV2(ctx context.Context, whatsApp *entity.WhatsApp, jid string) (*entity.WhatsApp, *exceptions.CustomerError)
 	Logout(ctx context.Context) *exceptions.CustomerError
+	LogoutV2(ctx context.Context, jid string) *exceptions.CustomerError
 }
