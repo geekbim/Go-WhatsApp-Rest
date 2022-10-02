@@ -1,9 +1,9 @@
 version: "3.9" 
 
 services:
-  go_wa_rest:
+  go_wa_rest_staging:
     build: .
-    container_name: go_wa_rest
+    container_name: go_wa_rest_staging
     ports:
       - "8081:8081"
     environment:
