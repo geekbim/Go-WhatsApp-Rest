@@ -6,7 +6,7 @@ import (
 	"go.mau.fi/whatsmeow/types"
 )
 
-func WhatsAppReconnect(jid string) error {
+func (w *whatsAppService) WhatsAppReconnect(jid string) error {
 	if WhatsAppClient[jid] != nil {
 		// Make Sure WebSocket Connection is Disconnected
 		WhatsAppClient[jid].Disconnect()

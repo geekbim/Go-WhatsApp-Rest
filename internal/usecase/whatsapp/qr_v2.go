@@ -2,8 +2,8 @@ package whatsapp
 
 import (
 	"context"
+	whatsapp_service "go_wa_rest/internal/service/whatsapp"
 	"go_wa_rest/pkg/exceptions"
-	"go_wa_rest/pkg/service/whatsapp"
 
 	"github.com/hashicorp/go-multierror"
 )
@@ -11,9 +11,9 @@ import (
 func (interactor *whatsAppInteractor) GetQrV2(ctx context.Context, jid string) (string, int, *exceptions.CustomerError) {
 	var multierr *multierror.Error
 
-	whatsapp.InitWhatsAppV2(nil, jid)
+	whatsapp_service.InitWhatsAppV2(nil, jid)
 
-	qrCodeImage, qrCodeTimeout, err := whatsapp.WhatsAppLogin(jid)
+	qrCodeImage, qrCodeTimeout, err := interactor.whatsAppService.WhatsAppLogin(jid)
 	if err != nil {
 		multierr = multierror.Append(multierr, err)
 		return "", 0, &exceptions.CustomerError{

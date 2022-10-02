@@ -9,22 +9,22 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-func WhatsAppSendText(ctx context.Context, jid string, rjid string, message string) (string, error) {
+func (w *whatsAppService) WhatsAppSendText(ctx context.Context, jid string, rjid string, message string) (string, error) {
 	if WhatsAppClient[jid] != nil {
 		var err error
 
 		// Make Sure WhatsApp Client is OK
-		err = WhatsAppIsClientOK(jid)
+		err = w.WhatsAppIsClientOK(jid)
 		if err != nil {
 			return "", err
 		}
 
 		// Compose New Remote JID
-		remoteJID := WhatsAppComposeJID(rjid)
+		remoteJID := w.WhatsAppComposeJID(rjid)
 
 		// Set Chat Presence
-		WhatsAppComposeStatus(jid, remoteJID, true, false)
-		defer WhatsAppComposeStatus(jid, remoteJID, false, false)
+		w.WhatsAppComposeStatus(jid, remoteJID, true, false)
+		defer w.WhatsAppComposeStatus(jid, remoteJID, false, false)
 
 		// Compose WhatsApp Proto
 		msgId := whatsmeow.GenerateMessageID()

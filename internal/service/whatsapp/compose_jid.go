@@ -6,9 +6,9 @@ import (
 	"go.mau.fi/whatsmeow/types"
 )
 
-func WhatsAppComposeJID(jid string) types.JID {
+func (w *whatsAppService) WhatsAppComposeJID(jid string) types.JID {
 	// Decompose JID First Before Recomposing
-	jid = WhatsAppDecomposeJID(jid)
+	jid = w.WhatsAppDecomposeJID(jid)
 
 	// Check if JID Contains '-' Symbol
 	if strings.ContainsRune(jid, '-') {
