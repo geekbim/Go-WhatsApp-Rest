@@ -2,6 +2,7 @@ package whatsapp
 
 import (
 	"fmt"
+	"go_wa_rest/domain/service"
 
 	_ "github.com/mattn/go-sqlite3"
 	"go.mau.fi/whatsmeow"
@@ -13,10 +14,14 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-var (
-	WhatsAppDatastore *sqlstore.Container
-	WhatsAppClient    = make(map[string]*whatsmeow.Client)
-)
+var WhatsAppClient = make(map[string]*whatsmeow.Client)
+
+type whatsAppService struct {
+}
+
+func NewWhatsAppService() service.WhatsAppService {
+	return &whatsAppService{}
+}
 
 func eventHandler(evt interface{}) {
 	switch v := evt.(type) {
@@ -24,19 +29,6 @@ func eventHandler(evt interface{}) {
 		fmt.Println("Received a message!", v.Message.GetConversation())
 	}
 }
-
-// func init() {
-// 	dbType := os.Getenv("WHATSAPP_DATASTORE_TYPE")
-
-// 	dbURI := os.Getenv("WHATSAPP_DATASTORE_URI")
-
-// 	datastore, err := sqlstore.New(dbType, dbURI, nil)
-// 	if err != nil {
-// 		log.Fatal("Error Connect WhatsApp Client Datastore")
-// 	}
-
-// 	WhatsAppDatastore = datastore
-// }
 
 func InitWhatsApp() *whatsmeow.Client {
 	dbLog := waLog.Stdout("Database", "DEBUG", true)

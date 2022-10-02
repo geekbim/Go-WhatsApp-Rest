@@ -6,7 +6,7 @@ import (
 	"go.mau.fi/whatsmeow/types"
 )
 
-func WhatsAppLogout(jid string) error {
+func (w *whatsAppService) WhatsAppLogout(jid string) error {
 	if WhatsAppClient[jid] != nil {
 		// Make Sure Store ID is not Empty
 		if WhatsAppClient[jid] != nil {

@@ -7,7 +7,7 @@ import (
 	"go.mau.fi/whatsmeow"
 )
 
-func WhatsAppGenerateQR(qrChan <-chan whatsmeow.QRChannelItem) (string, int) {
+func (w *whatsAppService) WhatsAppGenerateQR(qrChan <-chan whatsmeow.QRChannelItem) (string, int) {
 	qrChanCode := make(chan string)
 	qrChanTimeout := make(chan int)
 

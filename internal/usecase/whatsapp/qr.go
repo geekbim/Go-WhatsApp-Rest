@@ -2,8 +2,8 @@ package whatsapp
 
 import (
 	"context"
+	"go_wa_rest/internal/service/whatsapp"
 	"go_wa_rest/pkg/exceptions"
-	"go_wa_rest/pkg/service/whatsapp"
 
 	"github.com/hashicorp/go-multierror"
 )
@@ -34,7 +34,7 @@ func (interactor *whatsAppInteractor) GetQr(ctx context.Context) (string, int, *
 
 		interactor.waClient.SendPresence("available")
 
-		qrImage, qrTimeOut = whatsapp.WhatsAppGenerateQR(qrChan)
+		qrImage, qrTimeOut = interactor.whatsAppService.WhatsAppGenerateQR(qrChan)
 		qrImage = "data:image/png;base64," + qrImage
 	} else {
 		// Already logged in, just connect

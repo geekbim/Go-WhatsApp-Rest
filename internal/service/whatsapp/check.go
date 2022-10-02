@@ -1,8 +1,10 @@
 package whatsapp
 
-import "errors"
+import (
+	"errors"
+)
 
-func WhatsAppIsClientOK(jid string) error {
+func (w *whatsAppService) WhatsAppIsClientOK(jid string) error {
 	// Make Sure WhatsApp Client is Connected
 	if !WhatsAppClient[jid].IsConnected() {
 		return errors.New("WhatsApp Client is not Connected")

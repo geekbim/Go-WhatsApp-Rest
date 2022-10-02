@@ -1,8 +1,10 @@
 package whatsapp
 
-import "go.mau.fi/whatsmeow/types"
+import (
+	"go.mau.fi/whatsmeow/types"
+)
 
-func WhatsAppComposeStatus(jid string, rjid types.JID, isComposing bool, isAudio bool) {
+func (w *whatsAppService) WhatsAppComposeStatus(jid string, rjid types.JID, isComposing bool, isAudio bool) {
 	// Set Compose Status
 	var typeCompose types.ChatPresence
 	if isComposing {

@@ -7,7 +7,7 @@ import (
 	"go.mau.fi/whatsmeow/types"
 )
 
-func WhatsAppLogin(jid string) (string, int, error) {
+func (w *whatsAppService) WhatsAppLogin(jid string) (string, int, error) {
 	if WhatsAppClient[jid] != nil {
 		// Make Sure WebSocket Connection is Disconnected
 		WhatsAppClient[jid].Disconnect()
@@ -27,14 +27,14 @@ func WhatsAppLogin(jid string) (string, int, error) {
 			_ = WhatsAppClient[jid].SendPresence(types.PresenceAvailable)
 
 			// Get Generated QR Code and Timeout Information
-			qrImage, qrTimeout := WhatsAppGenerateQR(qrChanGenerate)
+			qrImage, qrTimeout := w.WhatsAppGenerateQR(qrChanGenerate)
 
 			// Return QR Code in Base64 Format and Timeout Information
 			return "data:image/png;base64," + qrImage, qrTimeout, nil
 		} else {
 			// Device ID is Exist
 			// Reconnect WebSocket
-			err := WhatsAppReconnect(jid)
+			err := w.WhatsAppReconnect(jid)
 			if err != nil {
 				return "", 0, err
 			}
