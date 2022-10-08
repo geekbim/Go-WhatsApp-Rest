@@ -2,7 +2,7 @@ package whatsapp
 
 import "strings"
 
-func WhatsAppDecomposeJID(jid string) string {
+func (w *whatsAppService) WhatsAppDecomposeJID(jid string) string {
 	// Check if JID Contains '@' Symbol
 	if strings.ContainsRune(jid, '@') {
 		// Split JID Based on '@' Symbol

@@ -7,8 +7,8 @@ import (
 	"go_wa_rest/internal/config"
 	docs_handler "go_wa_rest/internal/delivery/http/docs"
 	whatsapp_handler "go_wa_rest/internal/delivery/http/whatsapp"
+	whatsapp_service "go_wa_rest/internal/service/whatsapp"
 	"go_wa_rest/pkg/logger"
-	"go_wa_rest/pkg/service/whatsapp"
 	"net/http"
 	"os"
 	"os/signal"
@@ -24,7 +24,7 @@ var (
 )
 
 func main() {
-	waClient := whatsapp.InitWhatsApp()
+	waClient := whatsapp_service.InitWhatsApp()
 
 	router := mux.NewRouter()
 
@@ -59,5 +59,5 @@ func main() {
 
 func initHandler(router *mux.Router, waClient *whatsmeow.Client) {
 	docs_handler.DocsHandler(router)
-	whatsapp_handler.WhatsAppHandler(router, waClient)
+	whatsapp_handler.NewWhatsAppHandler(router, waClient)
 }
