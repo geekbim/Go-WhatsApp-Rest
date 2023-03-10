@@ -12,35 +12,74 @@ import (
 func TestWhatsAppDomain(t *testing.T) {
 	whatsAppDTO := testdata.NewWhatsAppDTO()
 
-	t.Run("NewWhatsApp", func(t *testing.T) {
-		res, err := entity.NewWhatsApp(whatsAppDTO)
-		assert.Nil(t, err)
-		assert.Equal(t, whatsAppDTO.Msisdn, res.Msisdn)
-		assert.Equal(t, whatsAppDTO.Message, res.Message)
-	})
+	type args struct {
+		whatsAppDTO *entity.WhatsAppDTO
+	}
 
-	t.Run("NewWhatsAppErrMsisdn", func(t *testing.T) {
-		whatsAppDTO.Msisdn = ""
-		err := errors.New("invalid msisdn")
-		expectedErr := []error{
-			err,
-		}
-		res, errEntity := entity.NewWhatsApp(whatsAppDTO)
+	type wantResponse struct {
+		whatsApp *entity.WhatsApp
+	}
 
-		assert.Equal(t, expectedErr, errEntity.Errors)
-		assert.Nil(t, res)
-	})
+	type wantErr struct {
+		err []error
+	}
 
-	t.Run("NewWhatsAppErrMessage", func(t *testing.T) {
-		whatsAppDTO.Msisdn = "08123456789"
-		whatsAppDTO.Message = ""
-		err := errors.New("message cannot be empty")
-		expectedErr := []error{
-			err,
-		}
-		res, errEntity := entity.NewWhatsApp(whatsAppDTO)
+	tests := []struct {
+		name         string
+		args         args
+		wantResponse wantResponse
+		wantErr      wantErr
+	}{
+		{
+			name: "NewWhatsApp",
+			args: args{
+				whatsAppDTO: whatsAppDTO,
+			},
+			wantResponse: wantResponse{
+				whatsApp: &entity.WhatsApp{
+					Msisdn:  whatsAppDTO.Msisdn,
+					Message: whatsAppDTO.Message,
+				},
+			},
+		},
+		{
+			name: "NewWhatsAppErrMsisdn",
+			args: args{
+				whatsAppDTO: &entity.WhatsAppDTO{
+					Msisdn:  "",
+					Message: whatsAppDTO.Message,
+				},
+			},
+			wantErr: wantErr{
+				err: []error{
+					errors.New("invalid msisdn"),
+				},
+			},
+		},
+		{
+			name: "NewWhatsAppErrMessage",
+			args: args{
+				whatsAppDTO: &entity.WhatsAppDTO{
+					Msisdn:  whatsAppDTO.Msisdn,
+					Message: "",
+				},
+			},
+			wantErr: wantErr{
+				err: []error{
+					errors.New("message cannot be empty"),
+				},
+			},
+		},
+	}
 
-		assert.Equal(t, expectedErr, errEntity.Errors)
-		assert.Nil(t, res)
-	})
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			res, err := entity.NewWhatsApp(tt.args.whatsAppDTO)
+			if err != nil {
+				assert.Equal(t, tt.wantErr.err, err.Errors)
+				assert.Nil(t, res)
+			}
+			assert.Equal(t, tt.wantResponse.whatsApp, res)
+		})
+	}
 }
