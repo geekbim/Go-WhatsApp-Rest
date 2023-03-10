@@ -4,6 +4,7 @@ import (
 	"go_wa_rest/domain/usecase"
 	whatsapp_service "go_wa_rest/internal/service/whatsapp"
 	whatsapp_usecase "go_wa_rest/internal/usecase/whatsapp"
+	jwt_service "go_wa_rest/pkg/service/jwt"
 
 	"github.com/gorilla/mux"
 	"go.mau.fi/whatsmeow"
@@ -11,6 +12,7 @@ import (
 
 type whatsAppHandler struct {
 	waClient        *whatsmeow.Client
+	jwtService      jwt_service.JWTService
 	whatsAppUseCase usecase.WhatsAppUseCase
 }
 
@@ -20,8 +22,10 @@ func NewWhatsAppHandler(
 ) {
 	whatsAppService := whatsapp_service.NewWhatsAppService()
 	whatsAppUseCase := whatsapp_usecase.NewWhatsAppInteractor(waClient, whatsAppService)
+	jwtService := jwt_service.NewJWTService()
 	handler := &whatsAppHandler{
 		waClient:        waClient,
+		jwtService:      jwtService,
 		whatsAppUseCase: whatsAppUseCase,
 	}
 	r.HandleFunc("/api/v1/whatsapp/login", handler.Login).Methods("POST")
