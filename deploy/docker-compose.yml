@@ -9,3 +9,6 @@ services:
     environment:
       APP_TIMEOUT: 20
       SERVER_PORT: 8080
+      WHATSAPP_DATASTORE_TYPE: sqlite
+      WHATSAPP_DATASTORE_URI: file:dbs/WhatsApp.db?_foreign_keys=on
+      JWT_SECRET: spidermansecret
