@@ -1,4 +1,4 @@
-FROM golang:1.20
+FROM golang:1.17
 
 WORKDIR /home/go/go-whatsapp-rest
 
