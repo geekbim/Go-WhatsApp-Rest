@@ -33,7 +33,7 @@ func (w *whatsAppService) WhatsAppSendText(ctx context.Context, jid string, rjid
 		}
 
 		// Send WhatsApp Message Proto
-		_, err = WhatsAppClient[jid].SendMessage(ctx, remoteJID, msgId, msgContent)
+		_, err = WhatsAppClient[jid].SendMessage(ctx, remoteJID, msgContent)
 		if err != nil {
 			return "", err
 		}
