@@ -9,13 +9,6 @@
     sh run-service.sh
 ```
 
-### Run App (Use Docker)
-```sh
-    git clone git@github.com:geekbim/Go-WhatsApp-Rest.git
-    cd Go-WhatsApp-Rest
-    sh run-service-docker.sh
-```
-
 ### Run Test
 ```sh
     sh run-test.sh
