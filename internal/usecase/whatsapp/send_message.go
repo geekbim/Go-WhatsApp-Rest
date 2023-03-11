@@ -6,7 +6,6 @@ import (
 	"go_wa_rest/pkg/exceptions"
 
 	"github.com/hashicorp/go-multierror"
-	"go.mau.fi/whatsmeow"
 	waproto "go.mau.fi/whatsmeow/binary/proto"
 	"google.golang.org/protobuf/proto"
 )
@@ -16,12 +15,11 @@ func (interactor *whatsAppInteractor) SendMessage(ctx context.Context, whatsApp 
 
 	remoteJID := interactor.whatsAppService.WhatsAppComposeJID(whatsApp.Msisdn)
 
-	msgId := whatsmeow.GenerateMessageID()
 	msgContent := &waproto.Message{
 		Conversation: proto.String(whatsApp.Message),
 	}
 
-	_, err := interactor.waClient.SendMessage(ctx, remoteJID, msgId, msgContent)
+	_, err := interactor.waClient.SendMessage(ctx, remoteJID, msgContent)
 	if err != nil {
 		multierr = multierror.Append(multierr, err)
 		return nil, &exceptions.CustomerError{
