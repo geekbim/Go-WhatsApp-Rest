@@ -1,7 +1,7 @@
 // +heroku goVersion go1.17
 module go_wa_rest
 
-go 1.17
+go 1.20
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
@@ -13,10 +13,10 @@ require (
 	github.com/sirupsen/logrus v1.8.1
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 	github.com/stretchr/testify v1.7.2
-	github.com/swaggo/http-swagger v1.3.0
-	github.com/swaggo/swag v1.8.2
+	github.com/swaggo/http-swagger v1.3.3
+	github.com/swaggo/swag v1.8.10
 	go.mau.fi/whatsmeow v0.0.0-20230306190159-5caded34a872
-	google.golang.org/protobuf v1.28.1
+	google.golang.org/protobuf v1.29.0
 )
 
 require (
@@ -25,7 +25,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
 	github.com/go-openapi/jsonreference v0.20.0 // indirect
-	github.com/go-openapi/spec v0.20.5 // indirect
+	github.com/go-openapi/spec v0.20.6 // indirect
 	github.com/go-openapi/swag v0.19.15 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
@@ -37,7 +37,7 @@ require (
 	golang.org/x/crypto v0.5.0 // indirect
 	golang.org/x/net v0.5.0 // indirect
 	golang.org/x/sys v0.4.0 // indirect
-	golang.org/x/tools v0.1.10 // indirect
+	golang.org/x/tools v0.1.12 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
