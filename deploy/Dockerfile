@@ -4,7 +4,7 @@ WORKDIR /home/go/go-whatsapp-rest
 
 COPY . .
 
-RUN cd .. && go mod tidy
+RUN go mod tidy
 
 RUN cd cmd && go build -o ../bin
 
