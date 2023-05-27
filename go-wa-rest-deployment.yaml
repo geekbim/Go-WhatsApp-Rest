@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: go-wa-rest
+  name: go-wa-rest
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      io.kompose.service: go-wa-rest
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: go-wa-rest
+    spec:
+      containers:
+        - env:
+            - name: APP_TIMEOUT
+              value: "20"
+            - name: JWT_SECRET
+              value: spidermansecret
+            - name: SERVER_PORT
+              value: "8080"
+            - name: WHATSAPP_DATASTORE_TYPE
+              value: sqlite
+            - name: WHATSAPP_DATASTORE_URI
+              value: file:dbs/WhatsApp.db?_foreign_keys=on
+          image: 111101/go-wa-rest:1.0.0 
+          name: go-wa-rest
+          ports:
+            - containerPort: 8080
+          resources: {}
+      restartPolicy: Always
+status: {}
