@@ -2,7 +2,7 @@ package docs_handler
 
 import (
 	"github.com/gorilla/mux"
-	httpSwagger "github.com/swaggo/http-swagger"
+	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
 func DocsHandler(r *mux.Router) {
