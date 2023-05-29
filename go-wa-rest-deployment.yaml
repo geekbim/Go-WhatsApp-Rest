@@ -25,6 +25,8 @@ spec:
     spec:
       containers:
         - env:
+            - name: ENV
+              value: "development"
             - name: APP_TIMEOUT
               value: "20"
             - name: JWT_SECRET
