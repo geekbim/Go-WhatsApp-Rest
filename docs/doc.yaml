@@ -1,0 +1,197 @@
+basePath: /api/v2
+definitions:
+  CommonError:
+    properties:
+      code:
+        description: |-
+          Code of the error
+          in: integer
+        type: int64
+      message:
+        description: |-
+          Message of the error
+          in: string
+        type: string
+    type: object
+  CommonSuccess:
+    properties:
+      code:
+        description: |-
+          Code of the success
+          in: integer
+        type: int64
+      message:
+        description: |-
+          Message of the success
+          in: string
+        type: string
+    type: object
+  QrCode:
+    properties:
+      qrImage:
+        description: |-
+          QrImage of the QrCode
+          in: string
+        format: string
+        type: string
+      qrTimeOut:
+        description: |-
+          TimeOut of the QrCode
+          in: int64
+        format: int64
+        type: integer
+    type: object
+  SendText:
+    properties:
+      msisdn:
+        description: |-
+          Phone Number WhatsApp
+          in: string
+        format: string
+        type: string
+      message:
+        description: |-
+          Message WhatsApp
+          in: string
+        format: string
+        type: string
+    type: object
+  ReqScanQrCode:
+    properties:
+      timeout:
+        description: |-
+          TimeOut of the QrCode
+          in: int64
+        format: int64
+        type: integer
+    type: object
+  ReqSendText:
+    properties:
+      msisdn:
+        description: |-
+          Phone Number WhatsApp
+          in: string
+        format: string
+        type: string
+      message:
+        description: |-
+          Message WhatsApp
+          in: string
+        format: string
+        type: string
+    type: object
+  ResScanQrCode:
+    properties:
+      code:
+        description: |-
+          Code of the success
+          in: int64
+        format: int64
+        type: integer
+      message:
+        description: |-
+          Message of the response
+          in: string
+        type: string
+      data:
+        $ref: '#/definitions/QrCode'
+    type: object
+  ResSendText:
+    properties:
+      code:
+        description: |-
+          Code of the success
+          in: int64
+        format: int64
+        type: integer
+      message:
+        description: |-
+          Message of the response
+          in: string
+        type: string
+      data:
+        $ref: '#/definitions/SendText'
+    type: object
+host: localhost:8080
+info:
+  title: 'Go WhatsApp API:'
+  version: 2.0.0
+paths:
+  /whatsapp/login:
+    post:
+      description: Scan QrCode
+      operationId: scanQrCode
+      parameters:
+      - description: 'name: body'
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ReqScanQrCode'
+        x-go-name: Body
+      responses:
+        "200":
+          description: ScanQrCode
+          schema:
+            $ref: '#/definitions/ResScanQrCode'
+        "400":
+          description: CommonError
+          schema:
+            $ref: '#/definitions/CommonError'
+      security:
+      - Bearer:
+        - '[]'
+      tags:
+      - whatsapp
+  /whatsapp/send/text:
+    post:
+      description: Send Text
+      operationId: sendText
+      parameters:
+      - description: 'name: body'
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ReqSendText'
+      responses:
+        "200":
+          description: Send Text
+          schema:
+            $ref: '#/definitions/ResSendText'
+        "400":
+          description: CommonError
+          schema:
+            $ref: '#/definitions/CommonError'
+      security:
+      - Bearer:
+        - '[]'
+      tags:
+      - whatsapp
+  /whatsapp/logout:
+    post:
+      description: Logout
+      operationId: logout
+      responses:
+        "204":
+          description: Logout
+        "400":
+          description: CommonError
+          schema:
+            $ref: '#/definitions/CommonError'
+      security:
+      - Bearer:
+        - '[]'
+      tags:
+      - whatsapp
+produces:
+- application/json
+schemes:
+- http
+- https
+securityDefinitions:
+  Bearer:
+    in: header
+    name: authorization
+    type: apiKey
+swagger: "2.0"
