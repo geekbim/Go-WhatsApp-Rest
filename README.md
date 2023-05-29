@@ -15,7 +15,7 @@
 ```
 ### Docs Swagger
 ```sh
-    coming soon
+    http://localhost:8080/docs
 ```
 
 ### Docs Postman

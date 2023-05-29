@@ -28,7 +28,7 @@ func main() {
 
 	router := mux.NewRouter()
 
-	initHandler(router, waClient)
+	initHandler(router, waClient, cfg)
 	http.Handle("/", router)
 	router.HandleFunc("/api", func(w http.ResponseWriter, req *http.Request) {
 		fmt.Fprintln(w, "ok")
@@ -57,7 +57,7 @@ func main() {
 	}
 }
 
-func initHandler(router *mux.Router, waClient *whatsmeow.Client) {
-	docs_handler.DocsHandler(router)
+func initHandler(router *mux.Router, waClient *whatsmeow.Client, cfg config.ServerConfig) {
+	docs_handler.DocsHandler(router, cfg)
 	whatsapp_handler.NewWhatsAppHandler(router, waClient)
 }

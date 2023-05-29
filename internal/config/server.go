@@ -10,6 +10,7 @@ import (
 )
 
 type ServerConfig struct {
+	Env     string
 	Port    string
 	TimeOut time.Duration
 }
@@ -26,6 +27,7 @@ func Server() ServerConfig {
 	}
 
 	cfg := ServerConfig{
+		Env:     os.Getenv("ENV"),
 		Port:    os.Getenv("SERVER_PORT"),
 		TimeOut: time.Duration(convertInt("APP_TIMEOUT")) * time.Second,
 	}
