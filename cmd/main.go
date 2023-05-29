@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	_ "go_wa_rest/docs"
 	"go_wa_rest/internal/config"
 	docs_handler "go_wa_rest/internal/delivery/http/docs"
 	whatsapp_handler "go_wa_rest/internal/delivery/http/whatsapp"
