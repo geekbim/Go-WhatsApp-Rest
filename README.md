@@ -17,8 +17,3 @@
 ```sh
     http://localhost:8080/docs
 ```
-
-### Docs Postman
-```sh
-    coming soon
-```
