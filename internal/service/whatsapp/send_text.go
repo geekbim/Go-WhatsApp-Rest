@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 
-	"go.mau.fi/whatsmeow"
 	waproto "go.mau.fi/whatsmeow/binary/proto"
 	"google.golang.org/protobuf/proto"
 )
@@ -27,7 +26,7 @@ func (w *whatsAppService) WhatsAppSendText(ctx context.Context, jid string, rjid
 		defer w.WhatsAppComposeStatus(jid, remoteJID, false, false)
 
 		// Compose WhatsApp Proto
-		msgId := whatsmeow.GenerateMessageID()
+		msgId := WhatsAppClient[jid].GenerateMessageID()
 		msgContent := &waproto.Message{
 			Conversation: proto.String(message),
 		}
