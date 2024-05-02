@@ -2,6 +2,7 @@ package whatsapp
 
 import (
 	"context"
+	"errors"
 	"go_wa_rest/domain/entity"
 	"go_wa_rest/pkg/exceptions"
 
@@ -17,6 +18,14 @@ func (interactor *whatsAppInteractor) SendMessage(ctx context.Context, whatsApp 
 
 	msgContent := &waproto.Message{
 		Conversation: proto.String(whatsApp.Message),
+	}
+
+	if interactor.waClient == nil {
+		multierr = multierror.Append(multierr, errors.New("session not found"))
+		return nil, &exceptions.CustomerError{
+			Status: exceptions.ERRBUSSINESS,
+			Errors: multierr,
+		}
 	}
 
 	_, err := interactor.waClient.SendMessage(ctx, remoteJID, msgContent)
