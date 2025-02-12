@@ -3,22 +3,14 @@ package whatsapp
 import (
 	"context"
 	"errors"
-	"go_wa_rest/domain/entity"
 	"go_wa_rest/pkg/exceptions"
 
 	"github.com/hashicorp/go-multierror"
-	"go.mau.fi/whatsmeow/proto/waE2E"
-	"google.golang.org/protobuf/proto"
+	"go.mau.fi/whatsmeow/types"
 )
 
-func (interactor *whatsAppInteractor) SendMessage(ctx context.Context, whatsApp *entity.WhatsApp) (*entity.WhatsApp, *exceptions.CustomerError) {
+func (interactor *whatsAppInteractor) GetGroup(ctx context.Context) ([]*types.GroupInfo, *exceptions.CustomerError) {
 	var multierr *multierror.Error
-
-	remoteJID := interactor.whatsAppService.WhatsAppComposeJID(whatsApp.Msisdn)
-
-	msgContent := &waE2E.Message{
-		Conversation: proto.String(whatsApp.Message),
-	}
 
 	if interactor.waClient == nil {
 		multierr = multierror.Append(multierr, errors.New("session not found"))
@@ -28,7 +20,7 @@ func (interactor *whatsAppInteractor) SendMessage(ctx context.Context, whatsApp 
 		}
 	}
 
-	_, err := interactor.waClient.SendMessage(ctx, remoteJID, msgContent)
+	groups, err := interactor.waClient.GetJoinedGroups()
 	if err != nil {
 		multierr = multierror.Append(multierr, err)
 		return nil, &exceptions.CustomerError{
@@ -37,5 +29,5 @@ func (interactor *whatsAppInteractor) SendMessage(ctx context.Context, whatsApp 
 		}
 	}
 
-	return whatsApp, nil
+	return groups, nil
 }

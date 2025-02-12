@@ -6,7 +6,7 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 	"go.mau.fi/whatsmeow"
-	waproto "go.mau.fi/whatsmeow/binary/proto"
+	"go.mau.fi/whatsmeow/proto/waCompanionReg"
 	"go.mau.fi/whatsmeow/store"
 	"go.mau.fi/whatsmeow/store/sqlstore"
 	"go.mau.fi/whatsmeow/types/events"
@@ -69,7 +69,7 @@ func InitWhatsAppV2(device *store.Device, jid string) {
 
 		// Set Client Properties
 		store.DeviceProps.Os = proto.String("Go WhatsApp Multi-Device REST")
-		store.DeviceProps.PlatformType = waproto.DeviceProps_DESKTOP.Enum()
+		store.DeviceProps.PlatformType = waCompanionReg.DeviceProps_DESKTOP.Enum()
 		store.DeviceProps.RequireFullSync = proto.Bool(false)
 
 		// Set Client Versions

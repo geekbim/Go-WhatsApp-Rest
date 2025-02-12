@@ -13,3 +13,10 @@ func MapWhatsAppDomainToResponse(whatsApp *entity.WhatsApp) *WhatsApp {
 		Message: whatsApp.Message,
 	}
 }
+
+func MapWhatsAppDocumentDomainToResponse(whatsAppDocument *entity.WhatsAppDocument) *WhatsApp {
+	return &WhatsApp{
+		Msisdn:  whatsAppDocument.Msisdn,
+		Message: whatsAppDocument.Message,
+	}
+}
