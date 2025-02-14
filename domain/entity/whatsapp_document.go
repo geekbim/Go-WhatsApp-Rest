@@ -2,12 +2,14 @@ package entity
 
 import (
 	"errors"
+	"go_wa_rest/valueobject"
 	"regexp"
 
 	"github.com/hashicorp/go-multierror"
 )
 
 type WhatsAppDocument struct {
+	ChatType valueobject.ChatType
 	Msisdn   string
 	Message  string
 	Document []byte
@@ -16,6 +18,7 @@ type WhatsAppDocument struct {
 }
 
 type WhatsAppDocumentDTO struct {
+	ChatType valueobject.ChatTypeEnum
 	Msisdn   string
 	Message  string
 	Document []byte
@@ -27,6 +30,7 @@ func NewWhatsAppDocument(whatsAppDocumentDTO *WhatsAppDocumentDTO) (*WhatsAppDoc
 	var multierr *multierror.Error
 
 	whatsappDocument := &WhatsAppDocument{
+		ChatType: valueobject.NewChatType(whatsAppDocumentDTO.ChatType),
 		Msisdn:   whatsAppDocumentDTO.Msisdn,
 		Message:  whatsAppDocumentDTO.Message,
 		Document: whatsAppDocumentDTO.Document,
@@ -48,10 +52,21 @@ func NewWhatsAppDocument(whatsAppDocumentDTO *WhatsAppDocumentDTO) (*WhatsAppDoc
 func (w *WhatsAppDocument) Validate() *multierror.Error {
 	var multierr *multierror.Error
 
-	re := regexp.MustCompile(`(0|\+62|062|62)[0-9]+$`)
+	if w.ChatType.GetValue() == "" {
+		multierr = multierror.Append(multierr, errors.New("chat type cannot be empty"))
+	}
 
-	if !re.MatchString(w.Msisdn) {
-		multierr = multierror.Append(multierr, errors.New("invalid msisdn"))
+	switch w.ChatType.GetValue() {
+	case valueobject.Private:
+		re := regexp.MustCompile(`(0|\+62|062|62)[0-9]+$`)
+
+		if !re.MatchString(w.Msisdn) {
+			multierr = multierror.Append(multierr, errors.New("invalid msisdn"))
+		}
+	case valueobject.Group:
+		if w.Msisdn == "" {
+			multierr = multierror.Append(multierr, errors.New("invalid msisdn"))
+		}
 	}
 
 	if w.Message == "" {

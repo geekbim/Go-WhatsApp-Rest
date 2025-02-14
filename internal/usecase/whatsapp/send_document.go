@@ -5,17 +5,27 @@ import (
 	"errors"
 	"go_wa_rest/domain/entity"
 	"go_wa_rest/pkg/exceptions"
+	"go_wa_rest/valueobject"
 
 	"github.com/hashicorp/go-multierror"
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/proto/waE2E"
+	"go.mau.fi/whatsmeow/types"
 	"google.golang.org/protobuf/proto"
 )
 
 func (interactor *whatsAppInteractor) SendDocument(ctx context.Context, whatsAppDocument *entity.WhatsAppDocument) (*entity.WhatsAppDocument, *exceptions.CustomerError) {
-	var multierr *multierror.Error
+	var (
+		multierr  *multierror.Error
+		remoteJID types.JID
+	)
 
-	remoteJID := interactor.whatsAppService.WhatsAppComposeJID(whatsAppDocument.Msisdn)
+	switch whatsAppDocument.ChatType.GetValue() {
+	case valueobject.Private:
+		remoteJID = interactor.whatsAppService.WhatsAppComposeJID(whatsAppDocument.Msisdn)
+	case valueobject.Group:
+		remoteJID = types.NewJID(whatsAppDocument.Msisdn, types.GroupServer)
+	}
 
 	if interactor.waClient == nil {
 		multierr = multierror.Append(multierr, errors.New("session not found"))

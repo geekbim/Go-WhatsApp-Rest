@@ -7,11 +7,13 @@ import (
 	"go_wa_rest/internal/delivery/response"
 	"go_wa_rest/pkg/exceptions"
 	"go_wa_rest/pkg/utils"
+	"go_wa_rest/valueobject"
 	"io"
 	"net/http"
 )
 
 func (handler *whatsAppHandler) SendDocument(w http.ResponseWriter, r *http.Request) {
+	chatType := r.FormValue("chatType")
 	msisdn := r.FormValue("msisdn")
 	message := r.FormValue("message")
 
@@ -31,7 +33,14 @@ func (handler *whatsAppHandler) SendDocument(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
+	newChatType, err := valueobject.NewChatTypeFromString(chatType)
+	if err != nil {
+		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRBUSSINESS), []error{err})
+		return
+	}
+
 	whatsApp, errValidate := entity.NewWhatsAppDocument(&entity.WhatsAppDocumentDTO{
+		ChatType: newChatType.GetValue(),
 		Msisdn:   msisdn,
 		Message:  message,
 		Document: documentBytes,

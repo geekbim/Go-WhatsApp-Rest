@@ -4,6 +4,7 @@ import (
 	"errors"
 	"go_wa_rest/domain/entity"
 	"go_wa_rest/testdata"
+	"go_wa_rest/valueobject"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -37,6 +38,7 @@ func TestWhatsAppDocumentDomain(t *testing.T) {
 			},
 			wantResponse: wantResponse{
 				whatsAppDocument: &entity.WhatsAppDocument{
+					ChatType: valueobject.NewChatType(whatsAppDocumentDTO.ChatType),
 					Msisdn:   whatsAppDocumentDTO.Msisdn,
 					Message:  whatsAppDocumentDTO.Message,
 					Document: whatsAppDocumentDTO.Document,
@@ -46,9 +48,28 @@ func TestWhatsAppDocumentDomain(t *testing.T) {
 			},
 		},
 		{
+			name: "NewWhatsAppDocumentErrChatType",
+			args: args{
+				whatsAppDocumentDTO: &entity.WhatsAppDocumentDTO{
+					ChatType: "",
+					Msisdn:   whatsAppDocumentDTO.Msisdn,
+					Message:  whatsAppDocumentDTO.Message,
+					Document: whatsAppDocumentDTO.Document,
+					FileName: whatsAppDocumentDTO.FileName,
+					FileType: whatsAppDocumentDTO.FileType,
+				},
+			},
+			wantErr: wantErr{
+				err: []error{
+					errors.New("chat type cannot be empty"),
+				},
+			},
+		},
+		{
 			name: "NewWhatsAppDocumentErrMsisdn",
 			args: args{
 				whatsAppDocumentDTO: &entity.WhatsAppDocumentDTO{
+					ChatType: whatsAppDocumentDTO.ChatType,
 					Msisdn:   "",
 					Message:  whatsAppDocumentDTO.Message,
 					Document: whatsAppDocumentDTO.Document,
@@ -66,6 +87,7 @@ func TestWhatsAppDocumentDomain(t *testing.T) {
 			name: "NewWhatsAppDocumentErrMessage",
 			args: args{
 				whatsAppDocumentDTO: &entity.WhatsAppDocumentDTO{
+					ChatType: whatsAppDocumentDTO.ChatType,
 					Msisdn:   whatsAppDocumentDTO.Msisdn,
 					Message:  "",
 					Document: whatsAppDocumentDTO.Document,
@@ -83,6 +105,7 @@ func TestWhatsAppDocumentDomain(t *testing.T) {
 			name: "NewWhatsAppDocumentErrDocument",
 			args: args{
 				whatsAppDocumentDTO: &entity.WhatsAppDocumentDTO{
+					ChatType: whatsAppDocumentDTO.ChatType,
 					Msisdn:   whatsAppDocumentDTO.Msisdn,
 					Message:  whatsAppDocumentDTO.Message,
 					Document: nil,
@@ -100,6 +123,7 @@ func TestWhatsAppDocumentDomain(t *testing.T) {
 			name: "NewWhatsAppDocumentErrFileName",
 			args: args{
 				whatsAppDocumentDTO: &entity.WhatsAppDocumentDTO{
+					ChatType: whatsAppDocumentDTO.ChatType,
 					Msisdn:   whatsAppDocumentDTO.Msisdn,
 					Message:  whatsAppDocumentDTO.Message,
 					Document: whatsAppDocumentDTO.Document,
@@ -117,6 +141,7 @@ func TestWhatsAppDocumentDomain(t *testing.T) {
 			name: "NewWhatsAppDocumentErrFileType",
 			args: args{
 				whatsAppDocumentDTO: &entity.WhatsAppDocumentDTO{
+					ChatType: whatsAppDocumentDTO.ChatType,
 					Msisdn:   whatsAppDocumentDTO.Msisdn,
 					Message:  whatsAppDocumentDTO.Message,
 					Document: whatsAppDocumentDTO.Document,
