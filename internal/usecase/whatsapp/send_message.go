@@ -5,18 +5,28 @@ import (
 	"errors"
 	"go_wa_rest/domain/entity"
 	"go_wa_rest/pkg/exceptions"
+	"go_wa_rest/valueobject"
 
 	"github.com/hashicorp/go-multierror"
-	waproto "go.mau.fi/whatsmeow/binary/proto"
+	"go.mau.fi/whatsmeow/proto/waE2E"
+	"go.mau.fi/whatsmeow/types"
 	"google.golang.org/protobuf/proto"
 )
 
 func (interactor *whatsAppInteractor) SendMessage(ctx context.Context, whatsApp *entity.WhatsApp) (*entity.WhatsApp, *exceptions.CustomerError) {
-	var multierr *multierror.Error
+	var (
+		multierr  *multierror.Error
+		remoteJID types.JID
+	)
 
-	remoteJID := interactor.whatsAppService.WhatsAppComposeJID(whatsApp.Msisdn)
+	switch whatsApp.ChatType.GetValue() {
+	case valueobject.Private:
+		remoteJID = interactor.whatsAppService.WhatsAppComposeJID(whatsApp.Msisdn)
+	case valueobject.Group:
+		remoteJID = types.NewJID(whatsApp.Msisdn, types.GroupServer)
+	}
 
-	msgContent := &waproto.Message{
+	msgContent := &waE2E.Message{
 		Conversation: proto.String(whatsApp.Message),
 	}
 

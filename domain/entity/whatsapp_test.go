@@ -4,6 +4,7 @@ import (
 	"errors"
 	"go_wa_rest/domain/entity"
 	"go_wa_rest/testdata"
+	"go_wa_rest/valueobject"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -37,8 +38,24 @@ func TestWhatsAppDomain(t *testing.T) {
 			},
 			wantResponse: wantResponse{
 				whatsApp: &entity.WhatsApp{
-					Msisdn:  whatsAppDTO.Msisdn,
-					Message: whatsAppDTO.Message,
+					ChatType: valueobject.NewChatType(whatsAppDTO.ChatType),
+					Msisdn:   whatsAppDTO.Msisdn,
+					Message:  whatsAppDTO.Message,
+				},
+			},
+		},
+		{
+			name: "NewWhatsAppErrChatType",
+			args: args{
+				whatsAppDTO: &entity.WhatsAppDTO{
+					ChatType: "",
+					Msisdn:   whatsAppDTO.Msisdn,
+					Message:  whatsAppDTO.Message,
+				},
+			},
+			wantErr: wantErr{
+				err: []error{
+					errors.New("chat type cannot be empty"),
 				},
 			},
 		},
@@ -46,8 +63,9 @@ func TestWhatsAppDomain(t *testing.T) {
 			name: "NewWhatsAppErrMsisdn",
 			args: args{
 				whatsAppDTO: &entity.WhatsAppDTO{
-					Msisdn:  "",
-					Message: whatsAppDTO.Message,
+					ChatType: whatsAppDTO.ChatType,
+					Msisdn:   "",
+					Message:  whatsAppDTO.Message,
 				},
 			},
 			wantErr: wantErr{
@@ -60,8 +78,9 @@ func TestWhatsAppDomain(t *testing.T) {
 			name: "NewWhatsAppErrMessage",
 			args: args{
 				whatsAppDTO: &entity.WhatsAppDTO{
-					Msisdn:  whatsAppDTO.Msisdn,
-					Message: "",
+					ChatType: whatsAppDTO.ChatType,
+					Msisdn:   whatsAppDTO.Msisdn,
+					Message:  "",
 				},
 			},
 			wantErr: wantErr{

@@ -8,6 +8,7 @@ import (
 	"go_wa_rest/internal/delivery/response"
 	"go_wa_rest/pkg/exceptions"
 	"go_wa_rest/pkg/utils"
+	"go_wa_rest/valueobject"
 	"net/http"
 )
 
@@ -20,9 +21,16 @@ func (handler *whatsAppHandler) SendText(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	chatType, err := valueobject.NewChatTypeFromString(req.ChatType)
+	if err != nil {
+		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRBUSSINESS), []error{err})
+		return
+	}
+
 	whatsApp, errValidate := entity.NewWhatsApp(&entity.WhatsAppDTO{
-		Msisdn:  req.Msisdn,
-		Message: req.Message,
+		ChatType: chatType.GetValue(),
+		Msisdn:   req.Msisdn,
+		Message:  req.Message,
 	})
 	if errValidate != nil {
 		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRBUSSINESS), errValidate.Errors)
