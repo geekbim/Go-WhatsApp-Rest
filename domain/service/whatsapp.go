@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"go_wa_rest/domain/entity"
 
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/types"
@@ -16,5 +17,7 @@ type WhatsAppService interface {
 	WhatsAppLogin(jid string) (string, int, error)
 	WhatsAppLogout(jid string) error
 	WhatsAppReconnect(jid string) error
-	WhatsAppSendText(ctx context.Context, jid string, rjid string, message string) (string, error)
+	WhatsAppGroup(jid string) ([]*types.GroupInfo, error)
+	WhatsAppSendText(ctx context.Context, jid string, rjid types.JID, message string) (string, error)
+	WhatsAppSendDocument(ctx context.Context, jid string, rjid types.JID, whatsAppDocument *entity.WhatsAppDocument) (string, error)
 }

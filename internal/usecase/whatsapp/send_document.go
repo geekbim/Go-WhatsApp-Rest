@@ -44,9 +44,6 @@ func (interactor *whatsAppInteractor) SendDocument(ctx context.Context, whatsApp
 		}
 	}
 
-	msgExtra := whatsmeow.SendRequestExtra{
-		ID: interactor.waClient.GenerateMessageID(),
-	}
 	msgContent := &waE2E.Message{
 		DocumentMessage: &waE2E.DocumentMessage{
 			URL:           proto.String(fileUploaded.URL),
@@ -61,7 +58,7 @@ func (interactor *whatsAppInteractor) SendDocument(ctx context.Context, whatsApp
 		},
 	}
 
-	_, err = interactor.waClient.SendMessage(ctx, remoteJID, msgContent, msgExtra)
+	_, err = interactor.waClient.SendMessage(ctx, remoteJID, msgContent)
 	if err != nil {
 		multierr = multierror.Append(multierr, err)
 		return nil, &exceptions.CustomerError{

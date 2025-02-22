@@ -11,7 +11,6 @@ import (
 type WhatsAppDocument struct {
 	ChatType valueobject.ChatType
 	Msisdn   string
-	Message  string
 	Document []byte
 	FileName string
 	FileType string
@@ -20,7 +19,6 @@ type WhatsAppDocument struct {
 type WhatsAppDocumentDTO struct {
 	ChatType valueobject.ChatTypeEnum
 	Msisdn   string
-	Message  string
 	Document []byte
 	FileName string
 	FileType string
@@ -32,7 +30,6 @@ func NewWhatsAppDocument(whatsAppDocumentDTO *WhatsAppDocumentDTO) (*WhatsAppDoc
 	whatsappDocument := &WhatsAppDocument{
 		ChatType: valueobject.NewChatType(whatsAppDocumentDTO.ChatType),
 		Msisdn:   whatsAppDocumentDTO.Msisdn,
-		Message:  whatsAppDocumentDTO.Message,
 		Document: whatsAppDocumentDTO.Document,
 		FileName: whatsAppDocumentDTO.FileName,
 		FileType: whatsAppDocumentDTO.FileType,
@@ -67,10 +64,6 @@ func (w *WhatsAppDocument) Validate() *multierror.Error {
 		if w.Msisdn == "" {
 			multierr = multierror.Append(multierr, errors.New("invalid msisdn"))
 		}
-	}
-
-	if w.Message == "" {
-		multierr = multierror.Append(multierr, errors.New("message cannot be empty"))
 	}
 
 	if w.Document == nil {

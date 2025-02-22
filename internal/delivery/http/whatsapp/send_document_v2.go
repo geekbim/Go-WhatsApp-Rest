@@ -12,7 +12,9 @@ import (
 	"net/http"
 )
 
-func (handler *whatsAppHandler) SendDocument(w http.ResponseWriter, r *http.Request) {
+func (handler *whatsAppHandler) SendDocumentV2(w http.ResponseWriter, r *http.Request) {
+	id := r.Header.Get("id")
+
 	chatType := r.FormValue("chatType")
 	msisdn := r.FormValue("msisdn")
 
@@ -38,7 +40,7 @@ func (handler *whatsAppHandler) SendDocument(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	whatsApp, errValidate := entity.NewWhatsAppDocument(&entity.WhatsAppDocumentDTO{
+	whatsAppDocument, errValidate := entity.NewWhatsAppDocument(&entity.WhatsAppDocumentDTO{
 		ChatType: newChatType.GetValue(),
 		Msisdn:   msisdn,
 		Document: documentBytes,
@@ -50,7 +52,7 @@ func (handler *whatsAppHandler) SendDocument(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	whatsAppDocument, errUseCase := handler.whatsAppUseCase.SendDocument(context.Background(), whatsApp)
+	whatsAppDocument, errUseCase := handler.whatsAppUseCase.SendDocumentV2(context.Background(), whatsAppDocument, id)
 	if errUseCase != nil {
 		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRBUSSINESS), errUseCase.Errors.Errors)
 		return

@@ -7,14 +7,14 @@ import (
 	"net/http"
 )
 
-func (handler *whatsAppHandler) LogoutV2(w http.ResponseWriter, r *http.Request) {
+func (handler *whatsAppHandler) GetGroupV2(w http.ResponseWriter, r *http.Request) {
 	id := r.Header.Get("id")
 
-	errUseCase := handler.whatsAppUseCase.LogoutV2(context.Background(), id)
+	groups, errUseCase := handler.whatsAppUseCase.GetGroupV2(context.Background(), id)
 	if errUseCase != nil {
 		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRBUSSINESS), errUseCase.Errors.Errors)
 		return
 	}
 
-	utils.RespondWithJSON(w, http.StatusNoContent, nil)
+	utils.RespondWithJSON(w, http.StatusOK, groups)
 }

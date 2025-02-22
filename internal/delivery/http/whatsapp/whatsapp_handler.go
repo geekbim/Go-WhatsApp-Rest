@@ -36,5 +36,7 @@ func NewWhatsAppHandler(
 
 	r.HandleFunc("/api/v2/whatsapp/login", handler.LoginV2).Methods("POST")
 	r.HandleFunc("/api/v2/whatsapp/send/text", handler.SendTextV2).Methods("POST")
+	r.HandleFunc("/api/v2/whatsapp/send/document", handler.SendDocumentV2).Methods("POST")
+	r.HandleFunc("/api/v2/whatsapp/group", handler.GetGroupV2).Methods("GET")
 	r.HandleFunc("/api/v2/whatsapp/logout", handler.LogoutV2).Methods("POST")
 }

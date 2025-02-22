@@ -8,28 +8,14 @@ import (
 	"go_wa_rest/internal/delivery/response"
 	"go_wa_rest/pkg/exceptions"
 	"go_wa_rest/pkg/utils"
+	"go_wa_rest/valueobject"
 	"net/http"
-
-	"github.com/hashicorp/go-multierror"
 )
 
 func (handler *whatsAppHandler) SendTextV2(w http.ResponseWriter, r *http.Request) {
-	var (
-		req      request.WhatsApp
-		multierr *multierror.Error
-	)
+	var req request.WhatsApp
 
-	authHeader := r.Header.Get("Authorization")
-	email, err := handler.jwtService.GetEmailByToken(authHeader)
-	if err != nil {
-		multierr = multierror.Append(multierr, err)
-		customErr := &exceptions.CustomerError{
-			Status: exceptions.ERRAUTHORIZED,
-			Errors: multierr,
-		}
-		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRAUTHORIZED), customErr.Errors.Errors)
-		return
-	}
+	id := r.Header.Get("id")
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&req); err != nil {
@@ -38,15 +24,16 @@ func (handler *whatsAppHandler) SendTextV2(w http.ResponseWriter, r *http.Reques
 	}
 
 	whatsApp, errValidate := entity.NewWhatsApp(&entity.WhatsAppDTO{
-		Msisdn:  req.Msisdn,
-		Message: req.Message,
+		ChatType: valueobject.ChatTypeEnum(req.ChatType),
+		Msisdn:   req.Msisdn,
+		Message:  req.Message,
 	})
 	if errValidate != nil {
 		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRBUSSINESS), errValidate.Errors)
 		return
 	}
 
-	whatsApp, errUseCase := handler.whatsAppUseCase.SendMessageV2(context.Background(), whatsApp, email)
+	whatsApp, errUseCase := handler.whatsAppUseCase.SendMessageV2(context.Background(), whatsApp, id)
 	if errUseCase != nil {
 		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRBUSSINESS), errUseCase.Errors.Errors)
 		return
