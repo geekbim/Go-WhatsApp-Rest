@@ -12,14 +12,16 @@ import (
 	"net/http"
 )
 
-func (handler *whatsAppHandler) SendDocument(w http.ResponseWriter, r *http.Request) {
+func (handler *whatsAppHandler) SendImageV2(w http.ResponseWriter, r *http.Request) {
+	id := r.Header.Get("id")
+
 	chatType := r.FormValue("chatType")
 	msisdn := r.FormValue("msisdn")
 	message := r.FormValue("message")
 
-	file, fileHeader, err := r.FormFile("document")
+	file, fileHeader, err := r.FormFile("image")
 	if err != nil {
-		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRBUSSINESS), []error{errors.New("failed to read document file")})
+		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRBUSSINESS), []error{errors.New("failed to read image file")})
 		return
 	}
 	defer file.Close()
@@ -27,7 +29,7 @@ func (handler *whatsAppHandler) SendDocument(w http.ResponseWriter, r *http.Requ
 	fileName := fileHeader.Filename
 	fileType := fileHeader.Header.Get("Content-Type")
 
-	documentBytes, err := io.ReadAll(file)
+	imageBytes, err := io.ReadAll(file)
 	if err != nil {
 		utils.RespondWithError(w, http.StatusInternalServerError, []error{err})
 		return
@@ -39,11 +41,11 @@ func (handler *whatsAppHandler) SendDocument(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	whatsApp, errValidate := entity.NewWhatsAppDocument(&entity.WhatsAppDocumentDTO{
+	whatsAppImage, errValidate := entity.NewWhatsAppImage(&entity.WhatsAppImageDTO{
 		ChatType: newChatType.GetValue(),
 		Msisdn:   msisdn,
 		Message:  message,
-		Document: documentBytes,
+		Image:    imageBytes,
 		FileName: fileName,
 		FileType: fileType,
 	})
@@ -52,11 +54,11 @@ func (handler *whatsAppHandler) SendDocument(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	whatsAppDocument, errUseCase := handler.whatsAppUseCase.SendDocument(context.Background(), whatsApp)
+	whatsAppImage, errUseCase := handler.whatsAppUseCase.SendImageV2(context.Background(), whatsAppImage, id)
 	if errUseCase != nil {
 		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRBUSSINESS), errUseCase.Errors.Errors)
 		return
 	}
 
-	utils.RespondWithJSON(w, http.StatusOK, response.MapWhatsAppDocumentDomainToResponse(whatsAppDocument))
+	utils.RespondWithJSON(w, http.StatusOK, response.MapWhatsAppImageDomainToResponse(whatsAppImage))
 }

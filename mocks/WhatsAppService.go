@@ -234,6 +234,34 @@ func (_m *WhatsAppService) WhatsAppSendDocument(ctx context.Context, jid string,
 	return r0, r1
 }
 
+// WhatsAppSendImage provides a mock function with given fields: ctx, jid, rjid, whatsAppImage
+func (_m *WhatsAppService) WhatsAppSendImage(ctx context.Context, jid string, rjid types.JID, whatsAppImage *entity.WhatsAppImage) (string, error) {
+	ret := _m.Called(ctx, jid, rjid, whatsAppImage)
+
+	if len(ret) == 0 {
+		panic("no return value specified for WhatsAppSendImage")
+	}
+
+	var r0 string
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, types.JID, *entity.WhatsAppImage) (string, error)); ok {
+		return rf(ctx, jid, rjid, whatsAppImage)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, string, types.JID, *entity.WhatsAppImage) string); ok {
+		r0 = rf(ctx, jid, rjid, whatsAppImage)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, string, types.JID, *entity.WhatsAppImage) error); ok {
+		r1 = rf(ctx, jid, rjid, whatsAppImage)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // WhatsAppSendText provides a mock function with given fields: ctx, jid, rjid, message
 func (_m *WhatsAppService) WhatsAppSendText(ctx context.Context, jid string, rjid types.JID, message string) (string, error) {
 	ret := _m.Called(ctx, jid, rjid, message)

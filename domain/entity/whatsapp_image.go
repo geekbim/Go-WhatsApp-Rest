@@ -8,37 +8,37 @@ import (
 	"github.com/hashicorp/go-multierror"
 )
 
-type WhatsAppDocument struct {
+type WhatsAppImage struct {
 	ChatType valueobject.ChatType
 	Msisdn   string
 	Message  string
-	Document []byte
+	Image    []byte
 	FileName string
 	FileType string
 }
 
-type WhatsAppDocumentDTO struct {
+type WhatsAppImageDTO struct {
 	ChatType valueobject.ChatTypeEnum
 	Msisdn   string
 	Message  string
-	Document []byte
+	Image    []byte
 	FileName string
 	FileType string
 }
 
-func NewWhatsAppDocument(whatsAppDocumentDTO *WhatsAppDocumentDTO) (*WhatsAppDocument, *multierror.Error) {
+func NewWhatsAppImage(whatsAppImageDTO *WhatsAppImageDTO) (*WhatsAppImage, *multierror.Error) {
 	var multierr *multierror.Error
 
-	whatsappDocument := &WhatsAppDocument{
-		ChatType: valueobject.NewChatType(whatsAppDocumentDTO.ChatType),
-		Msisdn:   whatsAppDocumentDTO.Msisdn,
-		Message:  whatsAppDocumentDTO.Message,
-		Document: whatsAppDocumentDTO.Document,
-		FileName: whatsAppDocumentDTO.FileName,
-		FileType: whatsAppDocumentDTO.FileType,
+	whatsappImage := &WhatsAppImage{
+		ChatType: valueobject.NewChatType(whatsAppImageDTO.ChatType),
+		Msisdn:   whatsAppImageDTO.Msisdn,
+		Message:  whatsAppImageDTO.Message,
+		Image:    whatsAppImageDTO.Image,
+		FileName: whatsAppImageDTO.FileName,
+		FileType: whatsAppImageDTO.FileType,
 	}
 
-	if errValidate := whatsappDocument.Validate(); errValidate != nil {
+	if errValidate := whatsappImage.Validate(); errValidate != nil {
 		multierr = multierror.Append(multierr, errValidate)
 	}
 
@@ -46,10 +46,10 @@ func NewWhatsAppDocument(whatsAppDocumentDTO *WhatsAppDocumentDTO) (*WhatsAppDoc
 		return nil, multierr
 	}
 
-	return whatsappDocument, nil
+	return whatsappImage, nil
 }
 
-func (w *WhatsAppDocument) Validate() *multierror.Error {
+func (w *WhatsAppImage) Validate() *multierror.Error {
 	var multierr *multierror.Error
 
 	if w.ChatType.GetValue() == "" {
@@ -73,8 +73,8 @@ func (w *WhatsAppDocument) Validate() *multierror.Error {
 		multierr = multierror.Append(multierr, errors.New("message cannot be empty"))
 	}
 
-	if w.Document == nil {
-		multierr = multierror.Append(multierr, errors.New("document cannot be empty"))
+	if w.Image == nil {
+		multierr = multierror.Append(multierr, errors.New("image cannot be empty"))
 	}
 
 	if w.FileName == "" {

@@ -20,4 +20,5 @@ type WhatsAppService interface {
 	WhatsAppGroup(jid string) ([]*types.GroupInfo, error)
 	WhatsAppSendText(ctx context.Context, jid string, rjid types.JID, message string) (string, error)
 	WhatsAppSendDocument(ctx context.Context, jid string, rjid types.JID, whatsAppDocument *entity.WhatsAppDocument) (string, error)
+	WhatsAppSendImage(ctx context.Context, jid string, rjid types.JID, whatsAppImage *entity.WhatsAppImage) (string, error)
 }

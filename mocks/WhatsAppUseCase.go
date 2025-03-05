@@ -259,6 +259,70 @@ func (_m *WhatsAppUseCase) SendDocumentV2(ctx context.Context, whatsAppDocument 
 	return r0, r1
 }
 
+// SendImage provides a mock function with given fields: ctx, whatsAppImage
+func (_m *WhatsAppUseCase) SendImage(ctx context.Context, whatsAppImage *entity.WhatsAppImage) (*entity.WhatsAppImage, *exceptions.CustomerError) {
+	ret := _m.Called(ctx, whatsAppImage)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SendImage")
+	}
+
+	var r0 *entity.WhatsAppImage
+	var r1 *exceptions.CustomerError
+	if rf, ok := ret.Get(0).(func(context.Context, *entity.WhatsAppImage) (*entity.WhatsAppImage, *exceptions.CustomerError)); ok {
+		return rf(ctx, whatsAppImage)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, *entity.WhatsAppImage) *entity.WhatsAppImage); ok {
+		r0 = rf(ctx, whatsAppImage)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.WhatsAppImage)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, *entity.WhatsAppImage) *exceptions.CustomerError); ok {
+		r1 = rf(ctx, whatsAppImage)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*exceptions.CustomerError)
+		}
+	}
+
+	return r0, r1
+}
+
+// SendImageV2 provides a mock function with given fields: ctx, whatsAppImage, jid
+func (_m *WhatsAppUseCase) SendImageV2(ctx context.Context, whatsAppImage *entity.WhatsAppImage, jid string) (*entity.WhatsAppImage, *exceptions.CustomerError) {
+	ret := _m.Called(ctx, whatsAppImage, jid)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SendImageV2")
+	}
+
+	var r0 *entity.WhatsAppImage
+	var r1 *exceptions.CustomerError
+	if rf, ok := ret.Get(0).(func(context.Context, *entity.WhatsAppImage, string) (*entity.WhatsAppImage, *exceptions.CustomerError)); ok {
+		return rf(ctx, whatsAppImage, jid)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, *entity.WhatsAppImage, string) *entity.WhatsAppImage); ok {
+		r0 = rf(ctx, whatsAppImage, jid)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.WhatsAppImage)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, *entity.WhatsAppImage, string) *exceptions.CustomerError); ok {
+		r1 = rf(ctx, whatsAppImage, jid)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*exceptions.CustomerError)
+		}
+	}
+
+	return r0, r1
+}
+
 // SendMessage provides a mock function with given fields: ctx, whatsApp
 func (_m *WhatsAppUseCase) SendMessage(ctx context.Context, whatsApp *entity.WhatsApp) (*entity.WhatsApp, *exceptions.CustomerError) {
 	ret := _m.Called(ctx, whatsApp)

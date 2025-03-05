@@ -49,6 +49,7 @@ func (interactor *whatsAppInteractor) SendDocument(ctx context.Context, whatsApp
 			URL:           proto.String(fileUploaded.URL),
 			DirectPath:    proto.String(fileUploaded.DirectPath),
 			Mimetype:      proto.String(whatsAppDocument.FileType),
+			Caption:       proto.String(whatsAppDocument.Message),
 			Title:         proto.String(whatsAppDocument.FileName),
 			FileName:      proto.String(whatsAppDocument.FileName),
 			FileLength:    proto.Uint64(fileUploaded.FileLength),

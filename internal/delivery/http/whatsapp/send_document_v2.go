@@ -17,6 +17,7 @@ func (handler *whatsAppHandler) SendDocumentV2(w http.ResponseWriter, r *http.Re
 
 	chatType := r.FormValue("chatType")
 	msisdn := r.FormValue("msisdn")
+	message := r.FormValue("message")
 
 	file, fileHeader, err := r.FormFile("document")
 	if err != nil {
@@ -43,6 +44,7 @@ func (handler *whatsAppHandler) SendDocumentV2(w http.ResponseWriter, r *http.Re
 	whatsAppDocument, errValidate := entity.NewWhatsAppDocument(&entity.WhatsAppDocumentDTO{
 		ChatType: newChatType.GetValue(),
 		Msisdn:   msisdn,
+		Message:  message,
 		Document: documentBytes,
 		FileName: fileName,
 		FileType: fileType,
