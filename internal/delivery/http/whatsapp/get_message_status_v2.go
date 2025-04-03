@@ -3,6 +3,7 @@ package whatsapp_handler
 import (
 	"context"
 	"go_wa_rest/domain/entity"
+	"go_wa_rest/internal/delivery/response"
 	"go_wa_rest/pkg/exceptions"
 	"go_wa_rest/pkg/utils"
 	"net/http"
@@ -21,11 +22,11 @@ func (handler *whatsAppHandler) GetMessageStatusV2(w http.ResponseWriter, r *htt
 		MessageId: messageId,
 	}
 
-	groups, errUseCase := handler.whatsAppUseCase.GetMessageStatusV2(context.Background(), &whatsAppStatus, id)
+	res, errUseCase := handler.whatsAppUseCase.GetMessageStatusV2(context.Background(), &whatsAppStatus, id)
 	if errUseCase != nil {
 		utils.RespondWithError(w, exceptions.MapToHttpStatusCode(exceptions.ERRBUSSINESS), errUseCase.Errors.Errors)
 		return
 	}
 
-	utils.RespondWithJSON(w, http.StatusOK, groups)
+	utils.RespondWithJSON(w, http.StatusOK, response.MapWhatsAppStatusDomainToResponse(res))
 }
