@@ -188,6 +188,36 @@ func (_m *WhatsAppService) WhatsAppLogout(jid string) error {
 	return r0
 }
 
+// WhatsAppMessageStatus provides a mock function with given fields: ctx, jid, messageId
+func (_m *WhatsAppService) WhatsAppMessageStatus(ctx context.Context, jid string, messageId string) (*entity.WhatsAppStatus, error) {
+	ret := _m.Called(ctx, jid, messageId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for WhatsAppMessageStatus")
+	}
+
+	var r0 *entity.WhatsAppStatus
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, string) (*entity.WhatsAppStatus, error)); ok {
+		return rf(ctx, jid, messageId)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, string, string) *entity.WhatsAppStatus); ok {
+		r0 = rf(ctx, jid, messageId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.WhatsAppStatus)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = rf(ctx, jid, messageId)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // WhatsAppReconnect provides a mock function with given fields: jid
 func (_m *WhatsAppService) WhatsAppReconnect(jid string) error {
 	ret := _m.Called(jid)

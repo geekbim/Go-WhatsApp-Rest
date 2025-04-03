@@ -19,6 +19,8 @@ type WhatsAppUseCase interface {
 	SendImageV2(ctx context.Context, whatsAppImage *entity.WhatsAppImage, jid string) (*entity.WhatsAppImage, *exceptions.CustomerError)
 	GetGroup(ctx context.Context) ([]*types.GroupInfo, *exceptions.CustomerError)
 	GetGroupV2(ctx context.Context, jid string) ([]*types.GroupInfo, *exceptions.CustomerError)
+	GetMessageStatus(ctx context.Context, whatsAppStatus *entity.WhatsAppStatus) (*entity.WhatsAppStatus, *exceptions.CustomerError)
+	GetMessageStatusV2(ctx context.Context, whatsAppStatus *entity.WhatsAppStatus, jid string) (*entity.WhatsAppStatus, *exceptions.CustomerError)
 	Logout(ctx context.Context) *exceptions.CustomerError
 	LogoutV2(ctx context.Context, jid string) *exceptions.CustomerError
 }

@@ -23,7 +23,7 @@ func (interactor *whatsAppInteractor) SendDocumentV2(ctx context.Context, whatsA
 		remoteJID = types.NewJID(whatsAppDocument.Msisdn, types.GroupServer)
 	}
 
-	_, err := interactor.whatsAppService.WhatsAppSendDocument(ctx, jid, remoteJID, whatsAppDocument)
+	id, err := interactor.whatsAppService.WhatsAppSendDocument(ctx, jid, remoteJID, whatsAppDocument)
 	if err != nil {
 		multierr = multierror.Append(multierr, err)
 		return nil, &exceptions.CustomerError{
@@ -31,6 +31,8 @@ func (interactor *whatsAppInteractor) SendDocumentV2(ctx context.Context, whatsA
 			Errors: multierr,
 		}
 	}
+
+	whatsAppDocument.Id = id
 
 	return whatsAppDocument, nil
 }

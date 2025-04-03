@@ -81,6 +81,70 @@ func (_m *WhatsAppUseCase) GetGroupV2(ctx context.Context, jid string) ([]*types
 	return r0, r1
 }
 
+// GetMessageStatus provides a mock function with given fields: ctx, whatsAppStatus
+func (_m *WhatsAppUseCase) GetMessageStatus(ctx context.Context, whatsAppStatus *entity.WhatsAppStatus) (*entity.WhatsAppStatus, *exceptions.CustomerError) {
+	ret := _m.Called(ctx, whatsAppStatus)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetMessageStatus")
+	}
+
+	var r0 *entity.WhatsAppStatus
+	var r1 *exceptions.CustomerError
+	if rf, ok := ret.Get(0).(func(context.Context, *entity.WhatsAppStatus) (*entity.WhatsAppStatus, *exceptions.CustomerError)); ok {
+		return rf(ctx, whatsAppStatus)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, *entity.WhatsAppStatus) *entity.WhatsAppStatus); ok {
+		r0 = rf(ctx, whatsAppStatus)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.WhatsAppStatus)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, *entity.WhatsAppStatus) *exceptions.CustomerError); ok {
+		r1 = rf(ctx, whatsAppStatus)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*exceptions.CustomerError)
+		}
+	}
+
+	return r0, r1
+}
+
+// GetMessageStatusV2 provides a mock function with given fields: ctx, whatsAppStatus, jid
+func (_m *WhatsAppUseCase) GetMessageStatusV2(ctx context.Context, whatsAppStatus *entity.WhatsAppStatus, jid string) (*entity.WhatsAppStatus, *exceptions.CustomerError) {
+	ret := _m.Called(ctx, whatsAppStatus, jid)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetMessageStatusV2")
+	}
+
+	var r0 *entity.WhatsAppStatus
+	var r1 *exceptions.CustomerError
+	if rf, ok := ret.Get(0).(func(context.Context, *entity.WhatsAppStatus, string) (*entity.WhatsAppStatus, *exceptions.CustomerError)); ok {
+		return rf(ctx, whatsAppStatus, jid)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, *entity.WhatsAppStatus, string) *entity.WhatsAppStatus); ok {
+		r0 = rf(ctx, whatsAppStatus, jid)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.WhatsAppStatus)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, *entity.WhatsAppStatus, string) *exceptions.CustomerError); ok {
+		r1 = rf(ctx, whatsAppStatus, jid)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*exceptions.CustomerError)
+		}
+	}
+
+	return r0, r1
+}
+
 // GetQr provides a mock function with given fields: ctx
 func (_m *WhatsAppUseCase) GetQr(ctx context.Context) (string, int, *exceptions.CustomerError) {
 	ret := _m.Called(ctx)

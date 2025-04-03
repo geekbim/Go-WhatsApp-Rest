@@ -9,6 +9,7 @@ import (
 )
 
 type WhatsAppDocument struct {
+	Id       string
 	ChatType valueobject.ChatType
 	Msisdn   string
 	Message  string

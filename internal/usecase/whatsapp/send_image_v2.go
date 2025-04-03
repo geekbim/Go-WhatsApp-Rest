@@ -23,7 +23,7 @@ func (interactor *whatsAppInteractor) SendImageV2(ctx context.Context, whatsAppI
 		remoteJID = types.NewJID(whatsAppImage.Msisdn, types.GroupServer)
 	}
 
-	_, err := interactor.whatsAppService.WhatsAppSendImage(ctx, jid, remoteJID, whatsAppImage)
+	id, err := interactor.whatsAppService.WhatsAppSendImage(ctx, jid, remoteJID, whatsAppImage)
 	if err != nil {
 		multierr = multierror.Append(multierr, err)
 		return nil, &exceptions.CustomerError{
@@ -31,6 +31,8 @@ func (interactor *whatsAppInteractor) SendImageV2(ctx context.Context, whatsAppI
 			Errors: multierr,
 		}
 	}
+
+	whatsAppImage.Id = id
 
 	return whatsAppImage, nil
 }

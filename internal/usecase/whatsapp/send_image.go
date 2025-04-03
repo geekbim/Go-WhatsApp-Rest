@@ -95,7 +95,7 @@ func (interactor *whatsAppInteractor) SendImage(ctx context.Context, whatsAppIma
 		},
 	}
 
-	_, err = interactor.waClient.SendMessage(ctx, remoteJID, msgContent)
+	res, err := interactor.waClient.SendMessage(ctx, remoteJID, msgContent)
 	if err != nil {
 		multierr = multierror.Append(multierr, err)
 		return nil, &exceptions.CustomerError{
@@ -103,6 +103,8 @@ func (interactor *whatsAppInteractor) SendImage(ctx context.Context, whatsAppIma
 			Errors: multierr,
 		}
 	}
+
+	whatsAppImage.Id = res.ID
 
 	return whatsAppImage, nil
 }

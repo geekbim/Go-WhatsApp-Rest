@@ -3,12 +3,14 @@ package whatsapp
 import (
 	"fmt"
 	"go_wa_rest/domain/service"
+	"sync"
 
 	_ "github.com/mattn/go-sqlite3"
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/proto/waCompanionReg"
 	"go.mau.fi/whatsmeow/store"
 	"go.mau.fi/whatsmeow/store/sqlstore"
+	"go.mau.fi/whatsmeow/types"
 	"go.mau.fi/whatsmeow/types/events"
 	waLog "go.mau.fi/whatsmeow/util/log"
 	"google.golang.org/protobuf/proto"
@@ -23,10 +25,39 @@ func NewWhatsAppService() service.WhatsAppService {
 	return &whatsAppService{}
 }
 
+type MessageStatus struct {
+	sync.RWMutex
+	StatusMap map[string]string
+}
+
+var MessageStatuses = &MessageStatus{
+	StatusMap: make(map[string]string),
+}
+
 func eventHandler(evt interface{}) {
 	switch v := evt.(type) {
 	case *events.Message:
 		fmt.Println("Received a message!", v.Message.GetConversation())
+	case *events.Receipt:
+		for _, receipt := range v.MessageIDs {
+			messageID := receipt
+			status := ""
+
+			switch v.Type {
+			case types.ReceiptTypeDelivered:
+				status = "delivered"
+			case types.ReceiptTypeRead:
+				status = "read"
+			case types.ReceiptTypePlayed:
+				status = "opened"
+			default:
+				status = "sent"
+			}
+
+			MessageStatuses.Lock()
+			MessageStatuses.StatusMap[messageID] = status
+			MessageStatuses.Unlock()
+		}
 	}
 }
 
