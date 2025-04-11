@@ -11,7 +11,7 @@ import (
 func (interactor *whatsAppInteractor) GetMessageStatusV2(ctx context.Context, whatsAppStatus *entity.WhatsAppStatus, jid string) (*entity.WhatsAppStatus, *exceptions.CustomerError) {
 	var multierr *multierror.Error
 
-	groups, err := interactor.whatsAppService.WhatsAppMessageStatus(ctx, jid, whatsAppStatus.MessageId)
+	res, err := interactor.whatsAppService.WhatsAppMessageStatus(ctx, jid, whatsAppStatus.MessageId)
 	if err != nil {
 		multierr = multierror.Append(multierr, err)
 		return nil, &exceptions.CustomerError{
@@ -20,5 +20,5 @@ func (interactor *whatsAppInteractor) GetMessageStatusV2(ctx context.Context, wh
 		}
 	}
 
-	return groups, nil
+	return res, nil
 }

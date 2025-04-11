@@ -22,7 +22,7 @@ func (w *whatsAppService) WhatsAppMessageStatus(ctx context.Context, jid string,
 		status, _ := MessageStatuses.StatusMap[messageId]
 		MessageStatuses.RUnlock()
 		if status == "" {
-			status = "sent"
+			status = "read"
 		}
 
 		whatsAppStatus := entity.WhatsAppStatus{
