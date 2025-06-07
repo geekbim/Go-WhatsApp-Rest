@@ -33,6 +33,7 @@ func NewWhatsAppHandler(
 	r.HandleFunc("/api/v1/whatsapp/send/document", handler.SendDocument).Methods("POST")
 	r.HandleFunc("/api/v1/whatsapp/send/image", handler.SendImage).Methods("POST")
 	r.HandleFunc("/api/v1/whatsapp/group", handler.GetGroup).Methods("GET")
+	r.HandleFunc("/api/v1/whatsapp/contact", handler.GetContact).Methods("GET")
 	r.HandleFunc("/api/v1/whatsapp/message/{id}/status", handler.GetMessageStatus).Methods("GET")
 	r.HandleFunc("/api/v1/whatsapp/logout", handler.Logout).Methods("POST")
 
@@ -41,6 +42,7 @@ func NewWhatsAppHandler(
 	r.HandleFunc("/api/v2/whatsapp/send/document", handler.SendDocumentV2).Methods("POST")
 	r.HandleFunc("/api/v2/whatsapp/send/image", handler.SendImageV2).Methods("POST")
 	r.HandleFunc("/api/v2/whatsapp/group", handler.GetGroupV2).Methods("GET")
+	r.HandleFunc("/api/v2/whatsapp/contact", handler.GetContactV2).Methods("GET")
 	r.HandleFunc("/api/v2/whatsapp/message/{id}/status", handler.GetMessageStatusV2).Methods("GET")
 	r.HandleFunc("/api/v2/whatsapp/logout", handler.LogoutV2).Methods("POST")
 }

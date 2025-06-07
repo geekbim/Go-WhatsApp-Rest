@@ -13,9 +13,9 @@ func (interactor *whatsAppInteractor) Logout(ctx context.Context) *exceptions.Cu
 
 	if interactor.waClient.Store.ID != nil {
 		interactor.waClient.SendPresence("unavailable")
-		if err := interactor.waClient.Logout(); err != nil {
+		if err := interactor.waClient.Logout(ctx); err != nil {
 			interactor.waClient.Disconnect()
-			if err := interactor.waClient.Store.Delete(); err != nil {
+			if err := interactor.waClient.Store.Delete(ctx); err != nil {
 				multierr = multierror.Append(multierr, err)
 				return &exceptions.CustomerError{
 					Status: exceptions.ERRBUSSINESS,

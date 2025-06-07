@@ -1,6 +1,7 @@
 package whatsapp
 
 import (
+	"context"
 	"fmt"
 	"go_wa_rest/domain/service"
 	"sync"
@@ -62,16 +63,17 @@ func eventHandler(evt interface{}) {
 }
 
 func InitWhatsApp() *whatsmeow.Client {
+	ctx := context.Background()
 	dbLog := waLog.Stdout("Database", "DEBUG", true)
 
 	// Make sure you add appropriate DB connector imports, e.g. github.com/mattn/go-sqlite3 for SQLite
-	container, err := sqlstore.New("sqlite3", "file:session.db?_foreign_keys=on", dbLog)
+	container, err := sqlstore.New(ctx, "sqlite3", "file:session.db?_foreign_keys=on", dbLog)
 	if err != nil {
 		panic(err)
 	}
 
 	// If you want multiple sessions, remember their JIDs and use .GetDevice(jid) or .GetAllDevices() instead.
-	deviceStore, err := container.GetFirstDevice()
+	deviceStore, err := container.GetFirstDevice(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -84,10 +86,11 @@ func InitWhatsApp() *whatsmeow.Client {
 }
 
 func InitWhatsAppV2(device *store.Device, jid string) {
+	ctx := context.Background()
 	dbLog := waLog.Stdout("Database", "DEBUG", true)
 
 	// Make sure you add appropriate DB connector imports, e.g. github.com/mattn/go-sqlite3 for SQLite
-	container, err := sqlstore.New("sqlite3", "file:session_v2.db?_foreign_keys=on&cache=shared&mode=rw", dbLog)
+	container, err := sqlstore.New(ctx, "sqlite3", "file:session_v2.db?_foreign_keys=on&cache=shared&mode=rw", dbLog)
 	if err != nil {
 		panic(err)
 	}
