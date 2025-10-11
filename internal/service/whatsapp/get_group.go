@@ -1,6 +1,7 @@
 package whatsapp
 
 import (
+	"context"
 	"errors"
 
 	"go.mau.fi/whatsmeow/types"
@@ -17,7 +18,7 @@ func (w *whatsAppService) WhatsAppGroup(jid string) ([]*types.GroupInfo, error) 
 		}
 
 		// Send WhatsApp Message Proto
-		groups, err := WhatsAppClient[jid].GetJoinedGroups()
+		groups, err := WhatsAppClient[jid].GetJoinedGroups(context.Background())
 		if err != nil {
 			return nil, err
 		}
