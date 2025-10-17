@@ -13,7 +13,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 	github.com/stretchr/testify v1.11.1
-	go.mau.fi/whatsmeow v0.0.0-20251010113933-5806d60827b0
+	go.mau.fi/whatsmeow v0.0.0-20251016095441-02c50743e601
 	google.golang.org/protobuf v1.36.10
 )
 
@@ -74,8 +74,8 @@ require (
 	github.com/stretchr/objx v0.5.3 // indirect
 	github.com/sunshineplan/pdf v1.0.8 // indirect
 	github.com/vektah/gqlparser/v2 v2.5.30 // indirect
-	go.mau.fi/libsignal v0.2.1-0.20251004173110-6e0a3f2435ed // indirect
-	go.mau.fi/util v0.9.2-0.20251005111801-c13b66219cee // indirect
+	go.mau.fi/libsignal v0.2.1 // indirect
+	go.mau.fi/util v0.9.2 // indirect
 	go.mongodb.org/mongo-driver v1.17.4 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/crypto v0.43.0 // indirect
