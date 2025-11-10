@@ -1,12 +1,15 @@
 package whatsapp
 
 import (
+	"context"
 	"errors"
 
 	"go.mau.fi/whatsmeow/types"
 )
 
 func (w *whatsAppService) WhatsAppReconnect(jid string) error {
+	ctx := context.Background()
+
 	if WhatsAppClient[jid] != nil {
 		// Make Sure WebSocket Connection is Disconnected
 		WhatsAppClient[jid].Disconnect()
@@ -20,7 +23,7 @@ func (w *whatsAppService) WhatsAppReconnect(jid string) error {
 			}
 
 			// Set WhatsApp Client Presence to Available
-			_ = WhatsAppClient[jid].SendPresence(types.PresenceAvailable)
+			_ = WhatsAppClient[jid].SendPresence(ctx, types.PresenceAvailable)
 
 			return nil
 		}

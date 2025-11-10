@@ -12,7 +12,7 @@ func (interactor *whatsAppInteractor) Logout(ctx context.Context) *exceptions.Cu
 	var multierr *multierror.Error
 
 	if interactor.waClient.Store.ID != nil {
-		interactor.waClient.SendPresence("unavailable")
+		interactor.waClient.SendPresence(ctx, "unavailable")
 		if err := interactor.waClient.Logout(ctx); err != nil {
 			interactor.waClient.Disconnect()
 			if err := interactor.waClient.Store.Delete(ctx); err != nil {

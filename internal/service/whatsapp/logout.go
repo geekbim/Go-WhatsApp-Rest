@@ -9,13 +9,14 @@ import (
 
 func (w *whatsAppService) WhatsAppLogout(jid string) error {
 	ctx := context.Background()
+
 	if WhatsAppClient[jid] != nil {
 		// Make Sure Store ID is not Empty
 		if WhatsAppClient[jid] != nil {
 			var err error
 
 			// Set WhatsApp Client Presence to Unavailable
-			_ = WhatsAppClient[jid].SendPresence(types.PresenceUnavailable)
+			_ = WhatsAppClient[jid].SendPresence(ctx, types.PresenceUnavailable)
 
 			// Logout WhatsApp Client and Disconnect from WebSocket
 			err = WhatsAppClient[jid].Logout(ctx)

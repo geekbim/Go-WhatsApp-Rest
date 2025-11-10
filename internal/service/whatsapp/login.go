@@ -8,6 +8,8 @@ import (
 )
 
 func (w *whatsAppService) WhatsAppLogin(jid string) (string, int, error) {
+	ctx := context.Background()
+
 	if WhatsAppClient[jid] != nil {
 		// Make Sure WebSocket Connection is Disconnected
 		WhatsAppClient[jid].Disconnect()
@@ -24,7 +26,7 @@ func (w *whatsAppService) WhatsAppLogin(jid string) (string, int, error) {
 			}
 
 			// Set WhatsApp Client Presence to Available
-			_ = WhatsAppClient[jid].SendPresence(types.PresenceAvailable)
+			_ = WhatsAppClient[jid].SendPresence(ctx, types.PresenceAvailable)
 
 			// Get Generated QR Code and Timeout Information
 			qrImage, qrTimeout := w.WhatsAppGenerateQR(qrChanGenerate)

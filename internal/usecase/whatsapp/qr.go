@@ -32,7 +32,7 @@ func (interactor *whatsAppInteractor) GetQr(ctx context.Context) (string, int, *
 			panic(err)
 		}
 
-		interactor.waClient.SendPresence("available")
+		interactor.waClient.SendPresence(ctx, "available")
 
 		qrImage, qrTimeOut = interactor.whatsAppService.WhatsAppGenerateQR(qrChan)
 		qrImage = "data:image/png;base64," + qrImage
@@ -46,7 +46,7 @@ func (interactor *whatsAppInteractor) GetQr(ctx context.Context) (string, int, *
 				Errors: multierr,
 			}
 		}
-		interactor.waClient.SendPresence("available")
+		interactor.waClient.SendPresence(ctx, "available")
 	}
 
 	return qrImage, qrTimeOut, nil
