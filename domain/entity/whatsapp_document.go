@@ -70,10 +70,6 @@ func (w *WhatsAppDocument) Validate() *multierror.Error {
 		}
 	}
 
-	if w.Message == "" {
-		multierr = multierror.Append(multierr, errors.New("message cannot be empty"))
-	}
-
 	if w.Document == nil {
 		multierr = multierror.Append(multierr, errors.New("document cannot be empty"))
 	}

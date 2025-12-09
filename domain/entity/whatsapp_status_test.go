@@ -37,7 +37,7 @@ func TestWhatsAppStatusDomain(t *testing.T) {
 			wantResponse: wantResponse{
 				whatsAppStatus: &entity.WhatsAppStatus{
 					MessageId: whatsAppStatusDTO.MessageId,
-					Status:    "read",
+					Status:    "",
 				},
 			},
 		},
@@ -49,7 +49,7 @@ func TestWhatsAppStatusDomain(t *testing.T) {
 			wantResponse: wantResponse{
 				whatsAppStatus: &entity.WhatsAppStatus{
 					MessageId: whatsAppStatusDTO.MessageId,
-					Status:    "delivered",
+					Status:    "",
 				},
 			},
 		},

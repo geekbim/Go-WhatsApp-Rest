@@ -70,10 +70,6 @@ func (w *WhatsAppImage) Validate() *multierror.Error {
 		}
 	}
 
-	if w.Message == "" {
-		multierr = multierror.Append(multierr, errors.New("message cannot be empty"))
-	}
-
 	if w.Image == nil {
 		multierr = multierror.Append(multierr, errors.New("image cannot be empty"))
 	}

@@ -259,6 +259,26 @@ func (_m *WhatsAppUseCase) LogoutV2(ctx context.Context, jid string) *exceptions
 	return r0
 }
 
+// SaveContactV2 provides a mock function with given fields: ctx, jid, msisdn, fullName, firstName
+func (_m *WhatsAppUseCase) SaveContactV2(ctx context.Context, jid string, msisdn string, fullName string, firstName string) *exceptions.CustomerError {
+	ret := _m.Called(ctx, jid, msisdn, fullName, firstName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SaveContactV2")
+	}
+
+	var r0 *exceptions.CustomerError
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, string, string) *exceptions.CustomerError); ok {
+		r0 = rf(ctx, jid, msisdn, fullName, firstName)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*exceptions.CustomerError)
+		}
+	}
+
+	return r0
+}
+
 // SendDocument provides a mock function with given fields: ctx, whatsAppDocument
 func (_m *WhatsAppUseCase) SendDocument(ctx context.Context, whatsAppDocument *entity.WhatsAppDocument) (*entity.WhatsAppDocument, *exceptions.CustomerError) {
 	ret := _m.Called(ctx, whatsAppDocument)

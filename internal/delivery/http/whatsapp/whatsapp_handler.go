@@ -43,6 +43,7 @@ func NewWhatsAppHandler(
 	r.HandleFunc("/api/v2/whatsapp/send/image", handler.SendImageV2).Methods("POST")
 	r.HandleFunc("/api/v2/whatsapp/group", handler.GetGroupV2).Methods("GET")
 	r.HandleFunc("/api/v2/whatsapp/contact", handler.GetContactV2).Methods("GET")
+	r.HandleFunc("/api/v2/whatsapp/contact", handler.SaveContactV2).Methods("POST")
 	r.HandleFunc("/api/v2/whatsapp/message/{id}/status", handler.GetMessageStatusV2).Methods("GET")
 	r.HandleFunc("/api/v2/whatsapp/logout", handler.LogoutV2).Methods("POST")
 }

@@ -21,6 +21,7 @@ type WhatsAppUseCase interface {
 	GetGroupV2(ctx context.Context, jid string) ([]*types.GroupInfo, *exceptions.CustomerError)
 	GetContact(ctx context.Context) (map[types.JID]types.ContactInfo, *exceptions.CustomerError)
 	GetContactV2(ctx context.Context, jid string) (map[types.JID]types.ContactInfo, *exceptions.CustomerError)
+	SaveContactV2(ctx context.Context, jid string, msisdn string, fullName string, firstName string) *exceptions.CustomerError
 	GetMessageStatus(ctx context.Context, whatsAppStatus *entity.WhatsAppStatus) (*entity.WhatsAppStatus, *exceptions.CustomerError)
 	GetMessageStatusV2(ctx context.Context, whatsAppStatus *entity.WhatsAppStatus, jid string) (*entity.WhatsAppStatus, *exceptions.CustomerError)
 	Logout(ctx context.Context) *exceptions.CustomerError

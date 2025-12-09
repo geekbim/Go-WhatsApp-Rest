@@ -93,7 +93,7 @@ func TestWhatsAppImageDomain(t *testing.T) {
 			},
 			wantErr: wantErr{
 				err: []error{
-					errors.New("Image cannot be empty"),
+					errors.New("image cannot be empty"),
 				},
 			},
 		},

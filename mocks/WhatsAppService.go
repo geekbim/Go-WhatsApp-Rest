@@ -87,6 +87,36 @@ func (_m *WhatsAppService) WhatsAppGenerateQR(qrChan <-chan whatsmeow.QRChannelI
 	return r0, r1
 }
 
+// WhatsAppContact provides a mock function with given fields: jid
+func (_m *WhatsAppService) WhatsAppContact(jid string) (map[types.JID]types.ContactInfo, error) {
+	ret := _m.Called(jid)
+
+	if len(ret) == 0 {
+		panic("no return value specified for WhatsAppContact")
+	}
+
+	var r0 map[types.JID]types.ContactInfo
+	var r1 error
+	if rf, ok := ret.Get(0).(func(string) (map[types.JID]types.ContactInfo, error)); ok {
+		return rf(jid)
+	}
+	if rf, ok := ret.Get(0).(func(string) map[types.JID]types.ContactInfo); ok {
+		r0 = rf(jid)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(map[types.JID]types.ContactInfo)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(jid)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // WhatsAppGroup provides a mock function with given fields: jid
 func (_m *WhatsAppService) WhatsAppGroup(jid string) ([]*types.GroupInfo, error) {
 	ret := _m.Called(jid)
@@ -216,6 +246,24 @@ func (_m *WhatsAppService) WhatsAppMessageStatus(ctx context.Context, jid string
 	}
 
 	return r0, r1
+}
+
+// WhatsAppPutContactName provides a mock function with given fields: ctx, jid, msisdn, fullName, firstName
+func (_m *WhatsAppService) WhatsAppPutContactName(ctx context.Context, jid string, msisdn string, fullName string, firstName string) error {
+	ret := _m.Called(ctx, jid, msisdn, fullName, firstName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for WhatsAppPutContactName")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, string, string) error); ok {
+		r0 = rf(ctx, jid, msisdn, fullName, firstName)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
 }
 
 // WhatsAppReconnect provides a mock function with given fields: jid
