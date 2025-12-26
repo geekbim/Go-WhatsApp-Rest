@@ -4,6 +4,7 @@ import (
 	"context"
 	"go_wa_rest/domain/entity"
 	"go_wa_rest/pkg/exceptions"
+	"go_wa_rest/valueobject"
 
 	"go.mau.fi/whatsmeow/types"
 )
@@ -24,6 +25,8 @@ type WhatsAppUseCase interface {
 	SaveContactV2(ctx context.Context, jid string, msisdn string, fullName string, firstName string) *exceptions.CustomerError
 	GetMessageStatus(ctx context.Context, whatsAppStatus *entity.WhatsAppStatus) (*entity.WhatsAppStatus, *exceptions.CustomerError)
 	GetMessageStatusV2(ctx context.Context, whatsAppStatus *entity.WhatsAppStatus, jid string) (*entity.WhatsAppStatus, *exceptions.CustomerError)
+	StartTypingV2(ctx context.Context, chatType valueobject.ChatTypeEnum, msisdn string, jid string, isAudio bool) *exceptions.CustomerError
+	StopTypingV2(ctx context.Context, chatType valueobject.ChatTypeEnum, msisdn string, jid string, isAudio bool) *exceptions.CustomerError
 	Logout(ctx context.Context) *exceptions.CustomerError
 	LogoutV2(ctx context.Context, jid string) *exceptions.CustomerError
 }

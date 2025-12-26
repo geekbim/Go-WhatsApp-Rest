@@ -46,4 +46,6 @@ func NewWhatsAppHandler(
 	r.HandleFunc("/api/v2/whatsapp/contact", handler.SaveContactV2).Methods("POST")
 	r.HandleFunc("/api/v2/whatsapp/message/{id}/status", handler.GetMessageStatusV2).Methods("GET")
 	r.HandleFunc("/api/v2/whatsapp/logout", handler.LogoutV2).Methods("POST")
+	r.HandleFunc("/api/v2/whatsapp/typing/start", handler.StartTypingV2).Methods("POST")
+	r.HandleFunc("/api/v2/whatsapp/typing/stop", handler.StopTypingV2).Methods("POST")
 }
