@@ -44,24 +44,44 @@ func (interactor *whatsAppInteractor) SendDocument(ctx context.Context, whatsApp
 		}
 	}
 
-	msgExtra := whatsmeow.SendRequestExtra{
-		ID: interactor.waClient.GenerateMessageID(),
+	mentionValues := whatsAppDocument.Mentions
+	if entity.HasMentionAll(mentionValues) {
+		groupInfo, err := interactor.waClient.GetGroupInfo(ctx, remoteJID)
+		if err != nil {
+			multierr = multierror.Append(multierr, err)
+			return nil, &exceptions.CustomerError{
+				Status: exceptions.ERRBUSSINESS,
+				Errors: multierr,
+			}
+		}
+		for _, participant := range groupInfo.Participants {
+			mentionValues = append(mentionValues, participant.JID.String())
+		}
 	}
+
+	mentions := entity.NormalizeMentionJIDs(mentionValues)
+	var contextInfo *waE2E.ContextInfo
+	if len(mentions) > 0 {
+		contextInfo = &waE2E.ContextInfo{MentionedJID: mentions}
+	}
+
 	msgContent := &waE2E.Message{
 		DocumentMessage: &waE2E.DocumentMessage{
 			URL:           proto.String(fileUploaded.URL),
 			DirectPath:    proto.String(fileUploaded.DirectPath),
 			Mimetype:      proto.String(whatsAppDocument.FileType),
+			Caption:       proto.String(whatsAppDocument.Message),
 			Title:         proto.String(whatsAppDocument.FileName),
 			FileName:      proto.String(whatsAppDocument.FileName),
 			FileLength:    proto.Uint64(fileUploaded.FileLength),
 			FileSHA256:    fileUploaded.FileSHA256,
 			FileEncSHA256: fileUploaded.FileEncSHA256,
 			MediaKey:      fileUploaded.MediaKey,
+			ContextInfo:   contextInfo,
 		},
 	}
 
-	_, err = interactor.waClient.SendMessage(ctx, remoteJID, msgContent, msgExtra)
+	res, err := interactor.waClient.SendMessage(ctx, remoteJID, msgContent)
 	if err != nil {
 		multierr = multierror.Append(multierr, err)
 		return nil, &exceptions.CustomerError{
@@ -69,6 +89,8 @@ func (interactor *whatsAppInteractor) SendDocument(ctx context.Context, whatsApp
 			Errors: multierr,
 		}
 	}
+
+	whatsAppDocument.Id = res.ID
 
 	return whatsAppDocument, nil
 }

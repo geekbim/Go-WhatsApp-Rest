@@ -20,7 +20,7 @@ func (interactor *whatsAppInteractor) GetGroup(ctx context.Context) ([]*types.Gr
 		}
 	}
 
-	groups, err := interactor.waClient.GetJoinedGroups()
+	groups, err := interactor.waClient.GetJoinedGroups(context.Background())
 	if err != nil {
 		multierr = multierror.Append(multierr, err)
 		return nil, &exceptions.CustomerError{

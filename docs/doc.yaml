@@ -56,6 +56,15 @@ definitions:
         format: string
         type: string
     type: object
+  TypingStatus:
+    properties:
+      status:
+        description: |-
+          Typing status
+          in: string
+        format: string
+        type: string
+    type: object
   ReqScanQrCode:
     properties:
       timeout:
@@ -79,6 +88,26 @@ definitions:
           in: string
         format: string
         type: string
+    type: object
+  ReqTyping:
+    properties:
+      chatType:
+        description: |-
+          Chat type (private/group)
+          in: string
+        format: string
+        type: string
+      msisdn:
+        description: |-
+          Phone Number WhatsApp
+          in: string
+        format: string
+        type: string
+      isAudio:
+        description: |-
+          Is audio recording typing
+          in: boolean
+        type: boolean
     type: object
   ResScanQrCode:
     properties:
@@ -111,6 +140,22 @@ definitions:
         type: string
       data:
         $ref: '#/definitions/SendText'
+    type: object
+  ResTypingStatus:
+    properties:
+      code:
+        description: |-
+          Code of the success
+          in: int64
+        format: int64
+        type: integer
+      message:
+        description: |-
+          Message of the response
+          in: string
+        type: string
+      data:
+        $ref: '#/definitions/TypingStatus'
     type: object
 host: localhost:8080
 info:
@@ -159,6 +204,56 @@ paths:
           description: Send Text
           schema:
             $ref: '#/definitions/ResSendText'
+        "400":
+          description: CommonError
+          schema:
+            $ref: '#/definitions/CommonError'
+      security:
+      - Bearer:
+        - '[]'
+      tags:
+      - whatsapp
+  /whatsapp/typing/start:
+    post:
+      description: Start typing indicator
+      operationId: startTyping
+      parameters:
+      - description: 'name: body'
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ReqTyping'
+      responses:
+        "200":
+          description: Start Typing
+          schema:
+            $ref: '#/definitions/ResTypingStatus'
+        "400":
+          description: CommonError
+          schema:
+            $ref: '#/definitions/CommonError'
+      security:
+      - Bearer:
+        - '[]'
+      tags:
+      - whatsapp
+  /whatsapp/typing/stop:
+    post:
+      description: Stop typing indicator
+      operationId: stopTyping
+      parameters:
+      - description: 'name: body'
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ReqTyping'
+      responses:
+        "200":
+          description: Stop Typing
+          schema:
+            $ref: '#/definitions/ResTypingStatus'
         "400":
           description: CommonError
           schema:
