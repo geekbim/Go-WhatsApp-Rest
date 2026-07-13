@@ -43,6 +43,7 @@ func (handler *whatsAppHandler) SendDocument(w http.ResponseWriter, r *http.Requ
 		ChatType: newChatType.GetValue(),
 		Msisdn:   msisdn,
 		Message:  message,
+		Mentions: formMentions(r),
 		Document: documentBytes,
 		FileName: fileName,
 		FileType: fileType,
