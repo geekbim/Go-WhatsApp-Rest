@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"go_wa_rest/domain/entity"
+	"log"
 
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/proto/waE2E"
@@ -15,12 +16,22 @@ func (w *whatsAppService) WhatsAppSendDocument(ctx context.Context, jid string, 
 	var err error
 
 	if WhatsAppClient[jid] == nil {
+		InitWhatsAppV2(nil, jid)
+	}
+	if WhatsAppClient[jid] == nil {
+		log.Printf("[whatsapp.send_document] client missing jid=%s rjid=%s file=%s", jid, rjid.String(), whatsAppDocument.FileName)
 		return "", errors.New("WhatsApp Client is not Valid")
 	}
 
 	// Make Sure WhatsApp Client is OK
 	err = w.WhatsAppIsClientOK(jid)
 	if err != nil {
+		if reconnectErr := w.WhatsAppReconnect(jid); reconnectErr == nil {
+			err = w.WhatsAppIsClientOK(jid)
+		}
+	}
+	if err != nil {
+		log.Printf("[whatsapp.send_document] client not ready jid=%s rjid=%s file=%s err=%v", jid, rjid.String(), whatsAppDocument.FileName, err)
 		return "", err
 	}
 
@@ -30,7 +41,30 @@ func (w *whatsAppService) WhatsAppSendDocument(ctx context.Context, jid string, 
 
 	fileUploaded, err := WhatsAppClient[jid].Upload(ctx, whatsAppDocument.Document, whatsmeow.MediaDocument)
 	if err != nil {
+		log.Printf("[whatsapp.send_document] upload error jid=%s rjid=%s file=%s err=%v", jid, rjid.String(), whatsAppDocument.FileName, err)
 		return "", err
+	}
+
+	mentionValues := whatsAppDocument.Mentions
+	if entity.HasMentionAll(mentionValues) {
+		groupInfo, err := WhatsAppClient[jid].GetGroupInfo(ctx, rjid)
+		if err != nil {
+			log.Printf("[whatsapp.send_document] group info error jid=%s rjid=%s file=%s err=%v", jid, rjid.String(), whatsAppDocument.FileName, err)
+			return "", err
+		}
+		log.Printf("[whatsapp.send_document] mention all expanded jid=%s rjid=%s participants=%d file=%s", jid, rjid.String(), len(groupInfo.Participants), whatsAppDocument.FileName)
+		for _, participant := range groupInfo.Participants {
+			mentionValues = append(mentionValues, participant.JID.String())
+		}
+	}
+
+	mentions := entity.NormalizeMentionJIDs(mentionValues)
+	if len(mentionValues) > 0 {
+		log.Printf("[whatsapp.send_document] mentions normalized jid=%s rjid=%s input=%d normalized=%d file=%s", jid, rjid.String(), len(mentionValues), len(mentions), whatsAppDocument.FileName)
+	}
+	var contextInfo *waE2E.ContextInfo
+	if len(mentions) > 0 {
+		contextInfo = &waE2E.ContextInfo{MentionedJID: mentions}
 	}
 
 	// Compose WhatsApp Proto
@@ -46,14 +80,18 @@ func (w *whatsAppService) WhatsAppSendDocument(ctx context.Context, jid string, 
 			FileSHA256:    fileUploaded.FileSHA256,
 			FileEncSHA256: fileUploaded.FileEncSHA256,
 			MediaKey:      fileUploaded.MediaKey,
+			ContextInfo:   contextInfo,
 		},
 	}
 
 	// Send WhatsApp Message Proto
 	resp, err := WhatsAppClient[jid].SendMessage(ctx, rjid, msgContent)
 	if err != nil {
+		log.Printf("[whatsapp.send_document] send message error jid=%s rjid=%s file=%s err=%v", jid, rjid.String(), whatsAppDocument.FileName, err)
 		return "", err
 	}
+
+	log.Printf("[whatsapp.send_document] sent jid=%s rjid=%s file=%s message_id=%s", jid, rjid.String(), whatsAppDocument.FileName, resp.ID)
 
 	// Return Error WhatsApp Client is not Valid
 	return resp.ID, nil
