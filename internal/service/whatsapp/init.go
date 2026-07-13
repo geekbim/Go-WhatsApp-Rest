@@ -97,8 +97,11 @@ func InitWhatsAppV2(device *store.Device, jid string) {
 
 	if WhatsAppClient[jid] == nil {
 		if device == nil {
-			// Initialize New WhatsApp Client Device in Datastore
-			device = container.NewDevice()
+			var getDeviceErr error
+			device, getDeviceErr = container.GetFirstDevice(ctx)
+			if getDeviceErr != nil {
+				panic(getDeviceErr)
+			}
 		}
 
 		// Set Client Properties
