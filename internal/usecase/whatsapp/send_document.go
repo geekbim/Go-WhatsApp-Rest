@@ -44,6 +44,27 @@ func (interactor *whatsAppInteractor) SendDocument(ctx context.Context, whatsApp
 		}
 	}
 
+	mentionValues := whatsAppDocument.Mentions
+	if entity.HasMentionAll(mentionValues) {
+		groupInfo, err := interactor.waClient.GetGroupInfo(ctx, remoteJID)
+		if err != nil {
+			multierr = multierror.Append(multierr, err)
+			return nil, &exceptions.CustomerError{
+				Status: exceptions.ERRBUSSINESS,
+				Errors: multierr,
+			}
+		}
+		for _, participant := range groupInfo.Participants {
+			mentionValues = append(mentionValues, participant.JID.String())
+		}
+	}
+
+	mentions := entity.NormalizeMentionJIDs(mentionValues)
+	var contextInfo *waE2E.ContextInfo
+	if len(mentions) > 0 {
+		contextInfo = &waE2E.ContextInfo{MentionedJID: mentions}
+	}
+
 	msgContent := &waE2E.Message{
 		DocumentMessage: &waE2E.DocumentMessage{
 			URL:           proto.String(fileUploaded.URL),
@@ -56,6 +77,7 @@ func (interactor *whatsAppInteractor) SendDocument(ctx context.Context, whatsApp
 			FileSHA256:    fileUploaded.FileSHA256,
 			FileEncSHA256: fileUploaded.FileEncSHA256,
 			MediaKey:      fileUploaded.MediaKey,
+			ContextInfo:   contextInfo,
 		},
 	}
 
