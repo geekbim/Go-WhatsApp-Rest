@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"go_wa_rest/domain/service"
+	"regexp"
 	"sync"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -85,12 +86,20 @@ func InitWhatsApp() *whatsmeow.Client {
 	return client
 }
 
+func sessionDBPathForJID(jid string) string {
+	safeJID := regexp.MustCompile(`[^a-zA-Z0-9_-]+`).ReplaceAllString(jid, "_")
+	if safeJID == "" {
+		safeJID = "default"
+	}
+	return fmt.Sprintf("file:session_v2_%s.db?_foreign_keys=on&cache=shared&mode=rwc", safeJID)
+}
+
 func InitWhatsAppV2(device *store.Device, jid string) {
 	ctx := context.Background()
 	dbLog := waLog.Stdout("Database", "DEBUG", true)
 
-	// Make sure you add appropriate DB connector imports, e.g. github.com/mattn/go-sqlite3 for SQLite
-	container, err := sqlstore.New(ctx, "sqlite3", "file:session_v2.db?_foreign_keys=on&cache=shared&mode=rw", dbLog)
+	// Separate sqlite store per portal account id so multi-device sessions don't bleed across users.
+	container, err := sqlstore.New(ctx, "sqlite3", sessionDBPathForJID(jid), dbLog)
 	if err != nil {
 		panic(err)
 	}
