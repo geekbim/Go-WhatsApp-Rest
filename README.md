@@ -1,3 +1,5 @@
+
+
 ## Go WhatsApp Rest
 
 ### Run App
@@ -17,3 +19,5 @@
 ```sh
     http://localhost:8080/docs
 ```
+
+The Swagger docs are available only when `ENV=development`.
