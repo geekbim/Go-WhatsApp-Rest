@@ -2,31 +2,29 @@ package whatsapp
 
 import (
 	"encoding/base64"
+	"time"
 
 	qrCode "github.com/skip2/go-qrcode"
 	"go.mau.fi/whatsmeow"
 )
 
 func (w *whatsAppService) WhatsAppGenerateQR(qrChan <-chan whatsmeow.QRChannelItem) (string, int) {
-	qrChanCode := make(chan string)
-	qrChanTimeout := make(chan int)
-
-	// Get QR Code Data and Timeout
-	go func() {
-		for evt := range qrChan {
-			if evt.Event == "code" {
-				qrChanCode <- evt.Code
-				qrChanTimeout <- int(evt.Timeout.Seconds())
-			} else {
-				qrChanCode <- "you have logged in"
-			}
+	if qrChan == nil {
+		return "", 0
+	}
+	timer := time.NewTimer(15 * time.Second)
+	defer timer.Stop()
+	select {
+	case evt, ok := <-qrChan:
+		if !ok || evt.Event != "code" || evt.Code == "" {
+			return "", 0
 		}
-	}()
-
-	// Generate QR Code Data to PNG Image
-	qrTemp := <-qrChanCode
-	qrPNG, _ := qrCode.Encode(qrTemp, qrCode.Medium, 256)
-
-	// Return QR Code PNG in Base64 Format and Timeout Information
-	return base64.StdEncoding.EncodeToString(qrPNG), <-qrChanTimeout
+		qrPNG, err := qrCode.Encode(evt.Code, qrCode.Medium, 256)
+		if err != nil {
+			return "", 0
+		}
+		return base64.StdEncoding.EncodeToString(qrPNG), int(evt.Timeout.Seconds())
+	case <-timer.C:
+		return "", 0
+	}
 }
