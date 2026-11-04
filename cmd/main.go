@@ -12,9 +12,11 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/gorilla/mux"
 	"go.mau.fi/whatsmeow"
+	"go.mau.fi/whatsmeow/store"
 )
 
 var (
@@ -23,13 +25,19 @@ var (
 )
 
 func main() {
+	versionCtx, versionCancel := context.WithTimeout(context.Background(), 5*time.Second)
+	if err := whatsapp_service.RefreshWebVersion(versionCtx); err != nil {
+		appLogger.Warn(fmt.Sprintf("Could not refresh WhatsApp Web version; using %s: %v", store.GetWAVersion(), err))
+	}
+	versionCancel()
+	appLogger.Info("WhatsApp Web version: " + store.GetWAVersion().String())
 	waClient := whatsapp_service.InitWhatsApp()
 
 	router := mux.NewRouter()
 
 	initHandler(router, waClient, cfg)
 	http.Handle("/", router)
-	router.HandleFunc("/api", func(w http.ResponseWriter, req *http.Request) {
+	router.HandleFunc("/api/health", func(w http.ResponseWriter, req *http.Request) {
 		fmt.Fprintln(w, "ok")
 	})
 
