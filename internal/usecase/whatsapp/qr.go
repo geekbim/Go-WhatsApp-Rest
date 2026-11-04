@@ -2,6 +2,7 @@ package whatsapp
 
 import (
 	"context"
+	"errors"
 	"go_wa_rest/internal/service/whatsapp"
 	"go_wa_rest/pkg/exceptions"
 
@@ -35,6 +36,10 @@ func (interactor *whatsAppInteractor) GetQr(ctx context.Context) (string, int, *
 		interactor.waClient.SendPresence(ctx, "available")
 
 		qrImage, qrTimeOut = interactor.whatsAppService.WhatsAppGenerateQR(qrChan)
+		if qrImage == "" {
+			multierr = multierror.Append(multierr, errors.New("WhatsApp QR code unavailable; please retry"))
+			return "", 0, &exceptions.CustomerError{Status: exceptions.ERRBUSSINESS, Errors: multierr}
+		}
 		qrImage = "data:image/png;base64," + qrImage
 	} else {
 		// Already logged in, just connect
