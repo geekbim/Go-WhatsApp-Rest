@@ -17,10 +17,13 @@ func (w *whatsAppService) WhatsAppLogin(jid string) (string, int, error) {
 		if WhatsAppClient[jid].Store.ID == nil {
 			// Device ID is not Exist
 			// Generate QR Code
-			qrChanGenerate, _ := WhatsAppClient[jid].GetQRChannel(context.Background())
+			qrChanGenerate, err := WhatsAppClient[jid].GetQRChannel(ctx)
+			if err != nil {
+				return "", 0, err
+			}
 
 			// Connect WebSocket while Initialize QR Code Data to be Sent
-			err := WhatsAppClient[jid].Connect()
+			err = WhatsAppClient[jid].Connect()
 			if err != nil {
 				return "", 0, err
 			}
@@ -30,6 +33,9 @@ func (w *whatsAppService) WhatsAppLogin(jid string) (string, int, error) {
 
 			// Get Generated QR Code and Timeout Information
 			qrImage, qrTimeout := w.WhatsAppGenerateQR(qrChanGenerate)
+			if qrImage == "" {
+				return "", 0, errors.New("WhatsApp QR code unavailable; please retry")
+			}
 
 			// Return QR Code in Base64 Format and Timeout Information
 			return "data:image/png;base64," + qrImage, qrTimeout, nil
